@@ -161,6 +161,33 @@ bool cmp(const pair<int, int> &a, const pair<int, int> &b)//sorting for priority
 
 void solve()
 {
+    int n;
+    cin >> n;
+    string a, b;
+    cin >> a >> b;
+    string temp = "";
+    temp += a[0];
+    ll ans = 1;
+    bool flag = false;
+    for (int i = 0; i <= n - 2; i++) {
+        if (a[i + 1] == b[i]) {
+            temp += a[i + 1];
+            ans++;
+        } else if (a[i + 1] == '0') {
+            if (ans > 1) ans--;
+            temp += a[i + 1];
+
+        } else {
+            temp += b.substr(i);
+            flag = true;
+            break;
+        }
+    }
+    if (!flag) {
+        temp += b[n - 1];
+    }
+    cout << temp << endl;
+    cout << ans << endl;
 
 
 }

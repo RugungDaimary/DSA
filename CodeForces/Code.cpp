@@ -161,33 +161,51 @@ bool cmp(const pair<int, int> &a, const pair<int, int> &b)//sorting for priority
 
 void solve()
 {
-    int n;
+    ll n;
     cin >> n;
-    string a, b;
-    cin >> a >> b;
-    string temp = "";
-    temp += a[0];
-    ll ans = 1;
-    bool flag = false;
-    for (int i = 0; i <= n - 2; i++) {
-        if (a[i + 1] == b[i]) {
-            temp += a[i + 1];
-            ans++;
-        } else if (a[i + 1] == '0') {
-            if (ans > 1) ans--;
-            temp += a[i + 1];
-
-        } else {
-            temp += b.substr(i);
-            flag = true;
-            break;
-        }
-    }
-    if (!flag) {
-        temp += b[n - 1];
-    }
-    cout << temp << endl;
+    ll ans = INT_MAX;
+    ll x = n;
+    int a = x / 15;
+    x = x % 15;
+    int b = x / 10;
+    x = x % 10;
+    int c = x / 6;
+    x = x % 6;
+    int d = x / 3;
+    x = x % 3;
+    int e = x / 1;
+    x = x % 1;
+    ans = min(ans, (a + b + c + d + e));
+    x = n;
+    int f = x / 10;
+    x = x % 10;
+    int g = x / 6;
+    x = x % 6;
+    int h = x / 3;
+    x = x % 3;
+    int i = x / 1;
+    x = x % 1;
+    ans = min(ans, (f + g + h + i));
+    x = n;
+    int j = x / 6;
+    x = x % 6;
+    int k = x / 3;
+    x = x % 3;
+    int l = x / 1;
+    x = x % 1;
+    ans = min(ans, (j + k + l));
+    x = n;
+    int m = x / 3;
+    x = x % 3;
+    int o = x / 1;
+    x = x % 1;
+    ans = min(ans, (m + o));
+    x = n;
+    int p = x / 1;
+    ans = min(ans, p);
     cout << ans << endl;
+
+
 
 
 }

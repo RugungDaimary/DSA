@@ -18,6 +18,7 @@ void lastOccurrenceRtoL(string s,int i,int &ans,char& ch){
     if(s[i]==ch){
         ans=i;
         return;
+        
     }
     lastOccurrenceRtoL(s,i-1,ans,ch);
 

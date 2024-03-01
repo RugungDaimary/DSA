@@ -1,6 +1,8 @@
 #include<iostream>
 using namespace std;
 int main(){
+
+    
    //declaration
    int number[15];
    cout<<number[14]<<endl;// random value will store in container

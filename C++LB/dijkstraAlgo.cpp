@@ -33,7 +33,7 @@ public:
         set<pair<int, int>> st;
         // intiial steps
         dist[src] = 0;
-        st.insert(make_pair(0, src));
+        st.insert({0, src});
 
         while (!st.empty())
         {
@@ -97,4 +97,3 @@ int main()
 
     return 0;
 }
-

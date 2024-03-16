@@ -63,6 +63,8 @@ public:
 };
 int main()
 {
+    int abcd=6;
+    cout << abcd << endl;
 
     return 0;
 }

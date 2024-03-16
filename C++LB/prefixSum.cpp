@@ -24,6 +24,7 @@ int maxLengthSubArray(vector<int> v, int k)
     return maxLen;
 }
 
+
 int countSubArrays(vector<int>&v,int k){
     unordered_map<int,int>prevSum;
     int sum=0;
@@ -61,6 +62,7 @@ int main(){
     cout<<"Number od Sub Arrays : "<<countSubArrays(v,k)<<endl;
 
     cout<<ceil(5*1.0/2)<<endl;
+    
     
     return 0;
 }

@@ -1,3 +1,4 @@
+//This is also call DSU
 #include<bits/stdc++.h>
 using namespace std;
 static bool myCmp(vector<int>&a,vector<int>&b){

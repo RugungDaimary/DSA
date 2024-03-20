@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-int maxLengthSubArray(vector<int> v, int k)
+int maxLengthSubArray(vector<int>&v, int k)
 {
     int sum = 0;
     int maxLen = 0;
@@ -59,7 +59,7 @@ int countSubArrays(vector<int>&v,int k){
 int main(){
     vector<int>v{3,4,7,2,-3,1,4,2};
     int k=7;
-    cout<<"Number od Sub Arrays : "<<countSubArrays(v,k)<<endl;
+    cout<<"Number of Sub Arrays : "<<countSubArrays(v,k)<<endl;
 
     cout<<ceil(5*1.0/2)<<endl;
     

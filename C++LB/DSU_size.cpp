@@ -63,8 +63,30 @@ public:
 };
 int main()
 {
-    int abcd=6;
-    cout << abcd << endl;
+    DSU dsu(6);
+    dsu.Union(0, 1);
+    dsu.Union(0, 2);
+
+    // if 0 and 3 are not on same Component yet
+    if (dsu.find(0) == dsu.find(3))
+    {
+        cout << "In same component" << endl;
+    }
+    else
+    {
+        cout << "Not in same component" << endl;
+    }
+
+    // Now we will Union 0 and 3
+    dsu.Union(0, 3);
+    if (dsu.find(0) == dsu.find(3))
+    {
+        cout << "In same component" << endl;
+    }
+    else
+    {
+        cout << "Not in same component" << endl;
+    }
 
     return 0;
 }

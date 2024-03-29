@@ -69,8 +69,8 @@ void deletion(TrieNode*root,string word){
     TrieNode *child;
     if(root->children[index]!=NULL){//is present
         child=root->children[index];
-
     }else{
+        
         return;
     }
     deletion(child,word.substr(1));

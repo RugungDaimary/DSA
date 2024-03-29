@@ -15,13 +15,15 @@ int position(set<int> &st, int element)
     }
 }
 
-
 int main()
 
 {
   
    set<int>st={1,3,6,9};
    int element = 10;
+   int n;
+   cin>>n;
+   
 
    cout << position(st, element) << endl;
    st.erase(10);//is elemet is not present ,it does nothing ,no error

@@ -31,13 +31,15 @@ int findDuplicate(int* arr,int n){
     int x=arr[i];
     a[x-1]++;
   }
-  
+  return 1;
     
 }
 
 int main(){
+  int n;
+  cin>>n;
     int arr[]={1,1,3,4,5,6};
+    cout <<findDuplicate(arr,6)<<endl;
 
-    
     return 0;
 }

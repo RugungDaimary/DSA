@@ -44,6 +44,7 @@ void computeLPS(string pattern, vector<int> &lps)
 vector<int> search(string pat, string txt)
 {
     int N = txt.length();
+
     int M = pat.length();
     vector<int> result;
 

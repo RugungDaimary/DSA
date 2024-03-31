@@ -15,6 +15,7 @@ int position(set<int> &st, int element)
     }
 }
 
+
 int main()
 
 {
@@ -30,3 +31,6 @@ int main()
 
    return 0;
 }
+
+
+

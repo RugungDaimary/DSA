@@ -1,7 +1,18 @@
 #include<bits/stdc++.h>
 #define set_bits __builtin_popcountll
-
 using namespace std;
+
+//traversing all bits form rightmost to leftmost
+void traverse (int n){
+    for(int i=31;i>=0;i--){
+        int ith_bit=n>>i;
+        if(ith_bit&1){
+            cout<<i<<"th bit is "<<(ith_bit&1)<<endl;
+        }else{
+            cout << i << "th bit is " << (ith_bit & 1) << endl;
+        }
+    }
+}
 int getIthBit(int n,int ith){
     int mask=1<<ith;
     int ans=n&mask;
@@ -125,6 +136,8 @@ int main()
 
     string s="abc";
     subsequences(s);
+    cout<<endl;
+    traverse(6);
 
     return 0;
 }

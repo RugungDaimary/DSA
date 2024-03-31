@@ -1,5 +1,13 @@
 //****** Rugung Daimary *********
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // increasing                                                                                            //  greater<int> //for decreasing
+// for multi_set ,          use less_equal<int>
+//  find_by_order, order_of_key
+
 #include <numeric>
 #include <cmath>
 using namespace std;
@@ -8,7 +16,6 @@ using namespace std;
     cin.tie(NULL);                    \
     cout.tie(NULL)
 #define MOD 1000000007
-#define MOD1 998244353
 #define N 1e9 + 7
 #define INF 1e18
 #define yes cout << "YES" << endl;
@@ -218,8 +225,6 @@ vector<int> getDivisors(int n){
 void solve()
 {
     
-    
-    
 }
 
 int main()
@@ -236,5 +241,7 @@ int main()
     {
         solve();
     }
+
+    
     return 0;
 }

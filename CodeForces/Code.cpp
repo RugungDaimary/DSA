@@ -224,6 +224,7 @@ vector<int> getDivisors(int n){
 
 void solve()
 {
+    cout<<"Rugung\n";
     
 }
 

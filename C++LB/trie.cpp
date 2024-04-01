@@ -16,15 +16,14 @@ class TrieNode{
     }
 
 };
-void insertWord(TrieNode* root,string word){ //TC -> O(word.length())
-    // cout<<"Inserting : "<<word<<endl;
+void insertWord(TrieNode* root,string &word,int i){ //TC -> O(word.length())
     //base case
-    if (word.empty())
+    if (i==word.length())
     {                         // the current root will be terminal
         root->isTerminal=true;//the last character of string
         return;
     }
-    char ch=word[0];
+    char ch=word[i];
     int index=ch-'a';//dealing with LowerCase letter,will give index of children
     TrieNode* child;
     if(root->children[index]!=NULL){//present
@@ -36,7 +35,7 @@ void insertWord(TrieNode* root,string word){ //TC -> O(word.length())
 
     }
     //recursion sambaal lega
-    insertWord(child,word.substr(1));
+    insertWord(child,word,i+1);
 
 }
 //Using loop
@@ -61,12 +60,12 @@ void insertWord(TrieNode *root, string word)
 
 
 
-bool searchWord(TrieNode*root,string word){
+bool searchWord(TrieNode*root,string &word,int i){
     //base case
-    if(word.empty()){
+    if(i==word.length()){
         return root->isTerminal;
     }
-    char ch = word[0];
+    char ch = word[i];
     int index = ch - 'a'; // dealing with LowerCase letter,will give index of children
     TrieNode *child;
     if (root->children[index] != NULL)
@@ -75,7 +74,7 @@ bool searchWord(TrieNode*root,string word){
     }else{
         return false;
     }
-    return searchWord(child,word.substr(1));
+    return searchWord(child,word,i+1);
     
 }
 //using loop
@@ -98,16 +97,16 @@ bool searchWord(TrieNode *root, string word)
     
 }
 */
-void deletion(TrieNode*root,string word){
+void deletion(TrieNode*root,string &word,int i){
     //base case
-    if (word.empty())
+    if (i==word.length())
     {
         if(root->isTerminal){
             root->isTerminal=false;
         }
         return;
     }
-    char ch = word[0];
+    char ch = word[i];
     int index = ch - 'a'; // dealing with LowerCase letter,will give index of children
     TrieNode *child;
     if(root->children[index]!=NULL){//is present
@@ -116,7 +115,7 @@ void deletion(TrieNode*root,string word){
         
         return;
     }
-    deletion(child,word.substr(1));
+    deletion(child,word,i+1);
 }
 // using loop
 /*
@@ -227,7 +226,7 @@ int main(){
 
 	TrieNode* root = new TrieNode('-');
 	for(int i=0; i<v.size(); i++) {
-		insertWord(root, v[i]);
+		insertWord(root, v[i],0);
 	}
 
 	vector<vector<string> > ans  = getSuggestions(root, input);

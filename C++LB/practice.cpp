@@ -1,34 +1,53 @@
+
+// Policy Based Data Structure
 #include <bits/stdc++.h>
 using namespace std;
-//Finding the position in set of an element;
-int position(set<int> &st, int element)
+unordered_map<int, vector<int>> adj;
+int ans = 0;
+bool dfs(int node, int parent, vector<bool> &hasApple)
 {
-    auto it = lower_bound(st.begin(), st.end(), element);
-    if (it != st.end() && *it == element)
+
+    bool aage = false;
+    for (auto nbr : adj[node])
     {
-        int pos = distance(st.begin(), it); // this itself takes O(n) time for calculating distance,we can use PBDS
-        return pos;
+
+        if (parent != nbr)
+        {
+            // cout<<nbr<<" "<<node<<endl;
+            aage = dfs(nbr, node, hasApple)||aage;
+        }
     }
-    else
+    if (hasApple[node] || aage)
     {
-        return -1;
+        ans += 2;
+        return true;
     }
+    return false;
 }
-
-
-int main()
-
+int minTime(int n, vector<vector<int>> &edges, vector<bool> &hasApple)
 {
-  
-   set<int>st={1,3,6,9};
-   int element = 10;
-
-   cout << position(st, element) << endl;
-   st.erase(10);//is elemet is not present ,it does nothing ,no error
-   
-
-   return 0;
+    for (vector<int> &s : edges)
+    {
+        int u = s[0];
+        int v = s[1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    // for (auto i : adj)
+    // {
+    //     cout << i.first << " : ";
+    //     for (auto j : adj[i.first])
+    //     {
+    //         cout << j << ",";
+    //     }
+    //     cout << endl;
+    // }
+    dfs(0, -1, hasApple);
+    return ans;
 }
-
-
-
+int main(){
+    vector<vector<int>> edges { {0, 1}, {0, 2}, {1, 4}, {1, 5}, {2, 3}, {2, 6}};
+    vector<bool>hasApple = {false,false,true,false,true,true,false};
+    int n=7;
+    cout<<minTime(n,edges,hasApple)-2<<endl;
+}

@@ -1,22 +1,20 @@
 //****** Rugung Daimary *********
 #include <bits/stdc++.h>
+#include <numeric>
+#include <cmath>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace std;
 using namespace __gnu_pbds;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // increasing                                                                                            //  greater<int> //for decreasing
-// for multi_set ,          use less_equal<int>
-//  find_by_order, order_of_key
-
-#include <numeric>
-#include <cmath>
+// for multi_set ,     use less_equal<int>
+//  find_by_order(value at index k), order_of_key(no of elments smaller than,k)
 using namespace std;
 #define fastio()                      \
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);                    \
     cout.tie(NULL)
 #define MOD 1000000007
-#define N 1e9 + 7
 #define INF 1e18
 #define yes cout << "YES" << endl;
 #define no cout << "NO" << endl;
@@ -224,8 +222,20 @@ vector<int> getDivisors(int n){
 
 void solve()
 {
-    cout<<"Rugung\n";
-    
+    int n;
+    cin>>n;
+    vi a(n);
+    for(int i=0;i>n;i++){
+        cin>>a[i];
+    }
+    int x=INT_MAX;
+    vi index;
+    for(int i=0;i<n-1;i++){
+        if(a[i+1]<a[i]){
+
+        }
+    }
+   
 }
 
 int main()

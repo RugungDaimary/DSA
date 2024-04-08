@@ -84,9 +84,16 @@ int longestValidParentheses(string s)
     cout<<y<<endl;
     return maxi * 2;
 }
+
 int main(){
-    string s = "(()(((()";
-    cout<<longestValidParentheses(s)<<endl;
-    
+    // string s = "(()(((()";
+    // cout<<longestValidParentheses(s)<<endl;
+    string s = "(*)";
+    if(checkValidString(s)){
+        cout<<"YES\n";
+    }else{
+        cout<<"NO\n";
+    }
+
     return 0;
 }

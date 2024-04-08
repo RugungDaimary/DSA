@@ -224,20 +224,11 @@ void solve()
 {
     int n;
     cin>>n;
-    vi a(n);
-    for(int i=0;i>n;i++){
-        cin>>a[i];
-    }
-    int x=INT_MAX;
-    vi index;
-    for(int i=0;i<n-1;i++){
-        if(a[i+1]<a[i]){
+    string s;
+    cin>>s;
+    
 
-        }
-    }
-    
-    
-    
+
    
 }
 

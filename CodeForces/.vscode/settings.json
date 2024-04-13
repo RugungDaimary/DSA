@@ -2,6 +2,11 @@
     "files.associations": {
         "set": "cpp",
         "random": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "ranges": "cpp",
+        "unordered_set": "cpp",
+        "version": "cpp",
+        "*.tcc": "cpp",
+        "iostream": "cpp"
     }
 }

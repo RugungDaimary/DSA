@@ -29,7 +29,7 @@ long long calculateHash(string &s){
 
 }
 int main(){
-    calculatePower();
+    
     vector<string>s={"aa","ab","aa","ac","bd","aa"};
     int n=s.size();
     /*
@@ -58,6 +58,7 @@ int main(){
             cnt++;
     }
     cout << "No of unique strings : " << cnt << endl;
+    
 
     return 0;
 }

@@ -1,1 +1,0 @@
-maxi = max(result, maxi);

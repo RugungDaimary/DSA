@@ -58,7 +58,7 @@ int main(){
             cnt++;
     }
     cout << "No of unique strings : " << cnt << endl;
-    
+    cout<<('z'-'a')<<endl;
 
     return 0;
 }

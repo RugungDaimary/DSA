@@ -226,9 +226,9 @@ map<char, int> findSubstring(string &s)
     }
     return mp;
 }
-void sum(vector<int>&v){
+ll arraySum(vector<int>&v){
     int acc=accumulate(v.begin(),v.end(),0);//third parameter is that from which no you wanna start with
-    cout<<acc<<endl;
+    return acc;
 }
 vector<int> getDivisors(int n)
 {
@@ -253,28 +253,8 @@ vector<int> getDivisors(int n)
 void solve()
 {
 
-    string x, y;
-    cin >> x >> y;
-    string a = "";
-    string b = "";
-    a += x[0];
-    b += y[0];
-    for (int i = 1; i < x.length(); i++)
-    {
-        if (a > b)
-        {
-            a += min(x[i], y[i]);
-            b += max(x[i], y[i]);
-        }
-        else
-        {
-            a += max(x[i], y[i]);
-            b += min(x[i], y[i]);
-        }
-    }
-    cout << a << endl;
-    cout << b << endl;
-    /*
+    
+    
      int n, m, k;
      cin >> n >> m >> k;
      vi a(n);
@@ -330,7 +310,7 @@ void solve()
      }
      cout << count << endl;
      return;
-     */
+     
 }
 int main()
 {

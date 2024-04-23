@@ -1,3 +1,75 @@
+//Graph implementation
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 1000;             // Maximum number of vertices(nodes)
+vector<vector<int>> adj;             // Adjacency list representation
+vector<bool> visited(N, false); // Array to keep track of visited vertices
+void addEdge(int u, int v)
+{
+    adj[u].push_back(v);
+    // If the graph is undirected, uncomment the line below to add the reverse edge
+    // adj[v].push_back(u);
+}
+
+void bfs(int node)
+{
+    queue<int> q;
+
+    q.push(node);
+    visited[node] = true;
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        cout << u << " ";
+        for (int v : adj[u])
+        {
+            if (!visited[v])
+            {
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+}
+
+void dfs(int u,int parent)
+{
+    visited[u] = true;
+    cout << u << " ";
+    for (int v : adj[u])
+    {
+        if (!visited[v] && parent!=v)
+        {
+            dfs(v,u);
+        }
+    }
+}
+
+int main()
+{
+    adj.resize(N);
+    // Adding edges to the graph
+    addEdge(0, 1);
+    addEdge(0, 2);
+    addEdge(1, 4);
+    addEdge(2, 3);
+    addEdge(3, 5);
+    visited.assign(N, false); // Reset visited array
+    // Performing BFS starting from vertex 0
+    cout << "BFS traversal starting from vertex 0: ";
+    bfs(0);
+    cout << endl;
+
+    visited.assign(N, false); // Reset visited array
+    // Performing DFS starting from vertex 0
+    cout << "DFS traversal starting from vertex 0: ";
+    dfs(0,-1);
+    cout << endl;
+
+    return 0;
+}
+
 /*
 #include<bits/stdc++.h>
 using namespace std;
@@ -176,6 +248,7 @@ int main(){
 */
 
 
+/*
 //Implementation
 #include<bits/stdc++.h>
 using namespace std;
@@ -363,3 +436,4 @@ int main(){
 
     return 0;
 }
+*/

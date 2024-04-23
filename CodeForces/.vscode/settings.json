@@ -17,6 +17,15 @@
         "format": "cpp",
         "concepts": "cpp",
         "functional": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "numeric": "cpp",
+        "string": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "regex": "cpp",
+        "vector": "cpp",
+        "type_traits": "cpp"
     }
 }

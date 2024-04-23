@@ -4,6 +4,15 @@ template <typename T>
 class Graph
 {
 public:
+
+
+    //we can create adjList by this
+    // vector<int> adjList[n]; // have created vector<int> of array
+                            // 0->[1,2]
+                            // 1->[0,2]
+                            // 2->[0,1]
+    // vector<bool>visited;
+
     unordered_map<int, list<pair<int, int>>> adjList;
     void addEdge(int u, int v, int wt, int direction)
     {

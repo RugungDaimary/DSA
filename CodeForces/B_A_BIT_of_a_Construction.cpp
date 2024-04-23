@@ -33,10 +33,6 @@ int min(int a, int b) { return a < b ? a : b; }
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-ll arraySum(vector<int>&v){
-    ll acc=accumulate(v.begin(),v.end(),0);//third parameter is that from which no you wanna start with
-    return acc;
-}
 int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
 {
     int res = 1;
@@ -115,29 +111,42 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 
-
 void solve()
 {
-    int n;
-    cin>>n;
-    vector<int> a(n);
-    map<int,int>m;
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-        m[a[i]]++;
-    } 
-    
-    int cnt=0; 
-    for(auto i:m){
-        cnt+=(i.second/3);
+    int n, k;
+    cin >> n >> k;
+    if (n == 1)
+    {
+        cout << k << endl;
+        return;
     }
-    cout<<cnt<<endl;
+    int i = 0;
+    vector<int>v(n,0);
+    int idx=0;
+    while (idx<n && i<30)
+    {
+        if(k<(1<<i)){
+            v[idx]=k;
+            k-=(1<<i)
+            break;
+
+        }
+        k -= (1 << i);
+        v[idx]=(1<<i);
+        idx++;
+        i++;
+    }
+    if()
+    for(auto i:v){
+        cout<<i<<" ";
+    }
+    cout << endl;
+
     return;
-    
 }
 int main()
 {
-    int t;
+    ll t;
     cin >> t;
     while (t--)
     {
@@ -145,6 +154,6 @@ int main()
     }
     return 0;
 }
-
+;
 
 

@@ -11,13 +11,14 @@ using namespace std;
 #define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
-#define yes cout << "YES" << endl;
-#define no cout << "NO" << endl;
-#define vi vector<int>
-#define vll vector<long long>
-#define vvi vector<vector<int>>
-#define pii pair<int, int>
-#define vpii vector<pair<int, int>>
+#define yes cout << "Yes" << endl;
+#define no cout << "No" << endl;
+#define endl "\n"
+#define int long long
+#define vi vector<long long>
+#define vvi vector<vector<long long>>
+#define pii pair<long , long>
+#define vpii vector<pair<long, long>>
 #define mp make_pair
 #define ff first
 #define ss second
@@ -33,8 +34,8 @@ int min(int a, int b) { return a < b ? a : b; }
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-ll arraySum(vector<int>&v){
-    ll acc=accumulate(v.begin(),v.end(),0);//third parameter is that from which no you wanna start with
+int arraySum(vector<int>&v){
+    int acc=accumulate(v.begin(),v.end(),0);//third parameter is that from which no you wanna start with
     return acc;
 }
 int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
@@ -115,24 +116,9 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 
-
 void solve()
 {
-    int n;
-    cin>>n;
-    vector<int> a(n);
-    map<int,int>m;
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-        m[a[i]]++;
-    } 
-    
-    int cnt=0; 
-    for(auto i:m){
-        cnt+=(i.second/3);
-    }
-    cout<<cnt<<endl;
-    return;
+      
     
 }
 int main()
@@ -145,6 +131,4 @@ int main()
     }
     return 0;
 }
-
-
-
+;

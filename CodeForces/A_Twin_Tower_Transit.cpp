@@ -8,11 +8,14 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 // for multi_set ,     use less_equal<int>
 //  find_by_order(value at index k), order_of_key(no of elments smaller than,k)
 using namespace std;
-#define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define fastio()                      \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
-#define yes cout << "YES" << endl;
-#define no cout << "NO" << endl;
+#define yes cout << "Yes" << endl;
+#define no cout << "No" << endl;
 #define vi vector<int>
 #define vll vector<long long>
 #define vvi vector<vector<int>>
@@ -32,9 +35,19 @@ int max(int a, int b) { return a > b ? a : b; }
 int min(int a, int b) { return a < b ? a : b; }
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
-int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-ll arraySum(vector<int>&v){
-    ll acc=accumulate(v.begin(),v.end(),0);//third parameter is that from which no you wanna start with
+int gcd(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+ll arraySum(vector<int> &v)
+{
+    ll acc = accumulate(v.begin(), v.end(), 0); // third parameter is that from which no you wanna start with
     return acc;
 }
 int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
@@ -115,29 +128,37 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 
-
 void solve()
 {
-    int n;
-    cin>>n;
-    vector<int> a(n);
-    map<int,int>m;
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-        m[a[i]]++;
-    } 
-    
-    int cnt=0; 
-    for(auto i:m){
-        cnt+=(i.second/3);
+    ll k;
+    ll ta, fa;
+    ll tb, fb;
+    cin >> k;
+    cin >> ta >> fa;
+    cin >> tb >> fb;
+    if (ta == tb)
+    {
+
+        ll x = abs(fa - fb);
+        cout << x << endl;
     }
-    cout<<cnt<<endl;
-    return;
-    
+    else
+
+    {
+        int mini=fa%k;
+        int dif=(k-mini);
+        int x1=(fa-mini);
+        int x2=(fa+dif);
+        int ans;
+        
+         ans=min(abs(fa-x1)+abs(fb-x1), abs(fa-x2)+abs(fb-x2))+3;
+        cout<<ans<<endl;
+        return;
+    }
 }
 int main()
 {
-    int t;
+    ll t;
     cin >> t;
     while (t--)
     {
@@ -145,6 +166,3 @@ int main()
     }
     return 0;
 }
-
-
-

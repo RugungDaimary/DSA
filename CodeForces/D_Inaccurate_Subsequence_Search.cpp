@@ -13,6 +13,7 @@ using namespace std;
 #define INF 1e18
 #define yes cout << "YES" << endl;
 #define no cout << "NO" << endl;
+hii
 #define vi vector<int>
 #define vll vector<long long>
 #define vvi vector<vector<int>>
@@ -113,67 +114,72 @@ vector<int> getDivisors(int n)
 
 void solve()
 {
-   
-     int n, m, k;
-     cin >> n >> m >> k;
-     vi a(n);
-     vi b(m);
-     map<int, int> mp;
-     map<int, int> slideWind;
-     for (int i = 0; i < n; i++)
-     {
-         cin >> a[i];
-     }
-     for (int i = 0; i < m; i++)
-     {
-         cin >> b[i];
-         slideWind[a[i]]++;
-         mp[b[i]]++;
-     }
-     ll ans = 0;
-     int count=0;
-     for(auto i:slideWind){
-        if(mp.find(i.first)!=mp.end()){
-            count+=min(mp[i.first],i.second);
+
+    int n, m, k;
+    cin >> n >> m >> k;
+    vi a(n);
+    vi b(m);
+    map<int, int> mp;
+    map<int, int> slideWind;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    for (int i = 0; i < m; i++)
+    {
+        cin >> b[i];
+        slideWind[a[i]]++;
+        mp[b[i]]++;
+    }
+    ll ans = 0;
+    int count = 0;
+    for (auto i : slideWind)
+    {
+        if (mp.find(i.first) != mp.end())
+        {
+            count += min(mp[i.first], i.second);
         }
-     }
-     
-     if(count>=k){
+    }
+
+    if (count >= k)
+    {
         ans++;
-     }
-     
-     if(m==n){
-        cout<<ans<<endl;
+    }
+
+    if (m == n)
+    {
+        cout << ans << endl;
         return;
-     }
-     int i = 0, j = m ;
-     while (j < n)
-     {
-        
+    }
+    int i = 0, j = m;
+    while (j < n)
+    {
+
         slideWind[a[j]]++;
-        if(slideWind[a[j]]<=mp[a[j]]){
+        if (slideWind[a[j]] <= mp[a[j]])
+        {
             count++;
         }
-        if(count>=k){
+        if (count >= k)
+        {
             ans++;
         }
+    }
 
-     }
-
-     for (int i = 0; i < n; i++)
-     {
-         temp[a[i]]++;
-         count += (temp[a[i]] <= mp[a[i]]);
-         if (i >= m - 1)
-         {
-             if (i >= m)
-             {
-                 count -= (temp[a[i - m]] <= mp[a[i - m]]);
-                 temp[a[i - m]]--;
-             }
-             ans += (count >= k);
-         }
-     }
+    //  for (int i = 0; i < n; i++)
+    //  {
+    //      temp[a[i]]++;
+    //      count += (temp[a[i]] <= mp[a[i]]);
+    //      if (i >= m - 1)
+    //      {
+    //          if (i >= m)
+    //          {
+    //              count -= (temp[a[i - m]] <= mp[a[i - m]]);
+    //              temp[a[i - m]]--;
+    //          }
+    //          ans += (count >= k);
+    //      }
+    //  }
 }
 int main()
 {

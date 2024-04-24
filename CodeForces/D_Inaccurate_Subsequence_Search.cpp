@@ -13,7 +13,6 @@ using namespace std;
 #define INF 1e18
 #define yes cout << "YES" << endl;
 #define no cout << "NO" << endl;
-hii
 #define vi vector<int>
 #define vll vector<long long>
 #define vvi vector<vector<int>>

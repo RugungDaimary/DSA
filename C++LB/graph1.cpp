@@ -11,6 +11,39 @@ void addEdge(int u, int v)
     // adj[v].push_back(u);
 }
 
+void bfs_level_by_level(int node)
+{
+    queue<int> q;
+    vector<bool> vis(adj.size(), false); // Use size of adjacency list
+    q.push(node);
+    vis[node] = true;
+
+    while (!q.empty())
+    {
+        int levelSize = q.size(); // Number of nodes in the current level
+
+        // Traverse nodes in the current level
+        for (int i = 0; i < levelSize; ++i)
+        {
+            int fNode = q.front();
+            q.pop();
+            cout << fNode << " ";
+
+            // Enqueue neighbors of the current node
+            for (auto nbr : adj[fNode])
+            {
+                if (!vis[nbr])
+                {
+                    q.push(nbr);
+                    vis[nbr] = true;
+                }
+            }
+        }
+
+        cout << endl; // Move to the next level
+    }
+}
+
 void bfs(int node)
 {
     queue<int> q;
@@ -60,7 +93,8 @@ int main()
     cout << "BFS traversal starting from vertex 0: ";
     bfs(0);
     cout << endl;
-
+    bfs_level_by_level(0);
+    
     visited.assign(N, false); // Reset visited array
     // Performing DFS starting from vertex 0
     cout << "DFS traversal starting from vertex 0: ";

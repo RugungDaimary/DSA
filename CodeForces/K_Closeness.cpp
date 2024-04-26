@@ -1,6 +1,6 @@
+
 //******************************************************************
 //						 Rugung Daimary
-//******************************************************************
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -15,8 +15,8 @@ using namespace std;
 #define INF 1e18
 #define int long long
 #define ll long long
-#define yes cout << "Yes" << endl;
-#define no cout << "No" << endl;
+#define yes cout << "YES" << endl;
+#define no cout << "NO" << endl;
 #define vi vector<int>
 #define vll vector<long long>
 #define vvi vector<vector<int>>
@@ -116,53 +116,22 @@ vector<int> getDivisors(int n)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vll a(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> a[i];
+    int n,k;
+    cin>>n>>k;
+    vi a(n);
+    vi b(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+        b[i]=a[i]%k;
     }
-    bool flag = false;
-    int breakpoint = -1;
-    for (int i = 1; i < n; i++)
-    {
-        if (a[i - 1] > a[i])
-        {
-            breakpoint = i - 1;
-            flag = true;
-            break;
-        }
+    sort(all(b));
+    
+    int ans=b[n-1]-b[0];
+    for(int i=0;i<=n-2;i++){
+        ans=min(ans,b[i]+k-b[i+1]);
     }
-    if (!flag || breakpoint + 2 >= n) // Check if array is already sorted or breakpoint is at the second last or last element
-    {
-        yes;
-        return;
-    }
-
-    int lowerLimit = a[breakpoint] - a[breakpoint + 1];
-    int upperLimit = (breakpoint + 2 < n) ? a[breakpoint + 2] - a[breakpoint + 1] : INT_MAX;
-
-    for (int i = breakpoint; i < n - 1; i++)
-    {
-        if (a[i] > a[i + 1])
-        {
-            lowerLimit = max(lowerLimit, a[i] - a[i + 1]);
-            if (i + 2 < n)
-                upperLimit = min(upperLimit, a[i + 2] - a[i + 1]);
-        }
-    }
-
-    if (lowerLimit <= upperLimit)
-    {
-        yes;
-        return;
-    }
-    else
-    {
-        no;
-        return;
-    }
+    cout<<ans<<endl;
+    
 }
 int32_t main()
 {

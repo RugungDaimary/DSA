@@ -47,6 +47,7 @@ int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
     }
     return res % p;
 }
+
 map<int, vector<int>> factor(int x)
 {
     map<int, vector<int>> f;

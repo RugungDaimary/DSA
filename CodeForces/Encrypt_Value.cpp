@@ -1,6 +1,5 @@
-//******************************************************************
-//						 Rugung Daimary
-//******************************************************************
+
+//****** Rugung Daimary *********
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -15,8 +14,8 @@ using namespace std;
 #define INF 1e18
 #define int long long
 #define ll long long
-#define yes cout << "Yes" << endl;
-#define no cout << "No" << endl;
+#define yes cout << "YES" << endl;
+#define no cout << "NO" << endl;
 #define vi vector<int>
 #define vll vector<long long>
 #define vvi vector<vector<int>>
@@ -117,52 +116,23 @@ vector<int> getDivisors(int n)
 void solve()
 {
     int n;
-    cin >> n;
-    vll a(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> a[i];
+    cin>>n;
+    vi a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
     }
-    bool flag = false;
-    int breakpoint = -1;
-    for (int i = 1; i < n; i++)
-    {
-        if (a[i - 1] > a[i])
-        {
-            breakpoint = i - 1;
-            flag = true;
-            break;
+    sort(all(a));
+    int s=0;
+    for(int i=0;i<n;i++){
+        if(s<=1|| a[i]==1){
+            s =(s%MOD+ a[i]%MOD);
+            continue;
+        }else{
+            s=((s%MOD)*(a[i]%MOD)%MOD);
         }
+        
     }
-    if (!flag || breakpoint + 2 >= n) // Check if array is already sorted or breakpoint is at the second last or last element
-    {
-        yes;
-        return;
-    }
-
-    int lowerLimit = a[breakpoint] - a[breakpoint + 1];
-    int upperLimit = (breakpoint + 2 < n) ? a[breakpoint + 2] - a[breakpoint + 1] : INT_MAX;
-
-    for (int i = breakpoint; i < n - 1; i++)
-    {
-        if (a[i] > a[i + 1])
-        {
-            lowerLimit = max(lowerLimit, a[i] - a[i + 1]);
-            if (i + 2 < n)
-                upperLimit = min(upperLimit, a[i + 2] - a[i + 1]);
-        }
-    }
-
-    if (lowerLimit <= upperLimit)
-    {
-        yes;
-        return;
-    }
-    else
-    {
-        no;
-        return;
-    }
+    cout<<s<<endl;
 }
 int32_t main()
 {

@@ -1,3 +1,4 @@
+
 //****** Rugung Daimary *********
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -11,6 +12,8 @@ using namespace std;
 #define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
+#define int long long
+#define ll long long
 #define yes cout << "YES" << endl;
 #define no cout << "NO" << endl;
 #define vi vector<int>
@@ -25,18 +28,13 @@ using namespace std;
 #define set_bits __builtin_popcountll
 #define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double lld;
+#define max3(a, b, c) max(max((a), (b)), (c))
+#define max4(a, b, c, d) max(max((a), (b)), max((c), (d)))
 int max(int a, int b) { return a > b ? a : b; }
 int min(int a, int b) { return a < b ? a : b; }
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-ll arraySum(vector<int>&v){
-    ll acc=accumulate(v.begin(),v.end(),0);//third parameter is that from which no you wanna start with
-    return acc;
-}
 int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
 {
     int res = 1;
@@ -117,29 +115,9 @@ vector<int> getDivisors(int n)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    string s;
-    cin >> s;
-    if (s.find("01") == string::npos && s.find("10") == string::npos)
-    {
-        cout << "0\n"; 
-        return;
-    }
-    vector<int> indices;
-    for (int i = 0; i < n - 1; ++i)
-    {
-        // If we find an alternating pattern, we select the first character of the pattern.
-        if (s[i] != s[i + 1])
-        {
-            indices.push_back(i + 1); // Use i+1 for 1-based index.
-            i++;                      // Skip the next character as we're looking for alternating subsequences.
-        }
-    }
-
-  
+    
 }
-int main()
+int32_t main()
 {
     ll t;
     cin >> t;

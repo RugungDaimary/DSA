@@ -5,7 +5,6 @@ class Graph
 {
 public:
 
-
     //we can create adjList by this
     // vector<int> adjList[n]; // have created vector<int> of array
                             // 0->[1,2]
@@ -13,96 +12,82 @@ public:
                             // 2->[0,1]
     // vector<bool>visited;
 
-    unordered_map<int, list<pair<int, int>>> adjList;
-    void addEdge(int u, int v, int wt, int direction)
-    {
-        // if direction=0 undirected
+    vector<vector<pair<int, int>>> adjList;
+
+    Graph(int n)
+    { // Constructor to initialize the adjacency list
+        adjList.resize(n);
+    }
+
+    void addEdge(int u, int v, int wt, int direction = 0)
+    { // Default direction 0 for undirected
         adjList[u].push_back({v, wt});
         if (direction == 0)
         {
             adjList[v].push_back({u, wt});
         }
     }
-    void print()
+
+
+    void Dijkstra(int src, int n)
     {
-        for (auto i : adjList)
-        {
-            cout << i.first << " :-> ";
-            for (auto j : i.second)
-            {
-                cout << "(" << j.first << "," << j.second << "),";
-            }
-            cout << endl;
-        }
-    }
-    
-    void Dijkstra(int src,int n){
-        
-        vector<int> dist(n, INT_MAX);
-        set<pair<int, int>> st;
-        // intiial steps
-        dist[src] = 0;
+        vector<int> distance(n, INT_MAX);
+        set<pair<int, int>> st; // Set to find the node with the smallest distance
+        distance[src] = 0;
         st.insert({0, src});
 
         while (!st.empty())
         {
-            // fetch the smallest or first element from set
-            auto topElement = *(st.begin());
-            int nodeDistance = topElement.first;
-            int node = topElement.second;
-
-            // pop from set
+            auto top = *st.begin();
             st.erase(st.begin());
+            int dist = top.first;
+            int node = top.second;
 
-            // neighbour traverse
-            for (auto nbr : adjList[node])
+            // cout << "Visiting node " << node << " with distance " << dist << endl;
+
+            for (auto &nbr : adjList[node])
             {
-                if (nodeDistance + nbr.second < dist[nbr.first])
+                int v = nbr.first;
+                int d = nbr.second;
+
+                if (dist + d < distance[v])
                 {
-                    // finding entry in set
-                    auto result = st.find({dist[nbr.first], nbr.first});
-                    // if found, then remove
-                    if (result != st.end())
+                    auto it = st.find({distance[v], v});
+                    if (it != st.end())
                     {
-                        st.erase(result);
+                        st.erase(it);
                     }
-                    // updation in dist array and set
-                    dist[nbr.first] = nodeDistance + nbr.second;
-                    st.insert({dist[nbr.first], nbr.first} );
+                    distance[v] = dist + d;
+                    st.insert({distance[v], v});
+                    // cout << "Updating distance of node " << v << " to " << distance[v] << endl;
                 }
             }
         }
 
-        cout << "printing ans:" << endl;
-        for (int i = 0; i < n; i++)
+        // Optionally print distances from src
+        for (int i = 0; i < n; ++i)
         {
-            cout << dist[i] << ", ";
+            cout << "Distance from " << src << " to " << i << " is " << distance[i] << endl;
         }
-        cout << endl;
     }
-    
-    
 };
 int main()
 {
-    Graph<int> g;
-    int n = 8; // no of nodes
-   
-    // cyclic
-    g.addEdge(6, 3, 2,0);
-    g.addEdge(6, 1, 14,0);
-    g.addEdge(3, 1, 9,0);
-    g.addEdge(3, 2, 10,0);
-    g.addEdge(1, 2, 7,0);
-    g.addEdge(2, 4, 15,0);
-    g.addEdge(4, 3, 11,0);
-    g.addEdge(6, 5,9,0);
-    g.addEdge(4, 5,6,0);
-    g.print();
-   
-    
+    int n = 8;       // Number of nodes
+    Graph<int> g(n); // Initialize graph with n nodes
 
-    
+    // Adding edges
+    g.addEdge(6, 3, 2, 0);
+    g.addEdge(6, 1, 14, 0);
+    g.addEdge(3, 1, 9, 0);
+    g.addEdge(3, 2, 10, 0);
+    g.addEdge(1, 2, 7, 0);
+    g.addEdge(2, 4, 15, 0);
+    g.addEdge(4, 3, 11, 0);
+    g.addEdge(6, 5, 9, 0);
+    g.addEdge(4, 5, 6, 0);
+
+    g.Dijkstra(6, n); // Run Dijkstra starting from node 0
 
     return 0;
 }

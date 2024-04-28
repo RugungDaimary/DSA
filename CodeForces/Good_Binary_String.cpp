@@ -35,12 +35,13 @@ int min(int a, int b) { return a < b ? a : b; }
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
+
+long long pow(long long x, long long y, long long p = 1e9 + 7) // time complexity O(log(min(x,y)))
 {
-    int res = 1;
+    long long res = 1;
     while (y > 0)
     {
-        if (y % 2 == 1)
+        if (y & 1) // equivalent to (y % 2 == 1)
         {
             res = (res * x) % p;
         }
@@ -112,7 +113,6 @@ vector<int> getDivisors(int n)
     sort(divisors.begin(), divisors.end());
     return divisors;
 }
-
 void solve()
 {
     

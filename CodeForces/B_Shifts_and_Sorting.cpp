@@ -14,13 +14,13 @@ using namespace std;
 #define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
+#define int long long
 #define ll long long
 #define yes cout << "Yes" << endl;
 #define no cout << "No" << endl;
 #define vi vector<int>
 #define vll vector<long long>
 #define vvi vector<vector<int>>
-#define vvll vector<vector<long long>>
 #define pii pair<int, int>
 #define vpii vector<pair<int, int>>
 #define mp make_pair
@@ -37,9 +37,9 @@ int min(int a, int b) { return a < b ? a : b; }
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-ll pow(ll x, ll y, ll p = 1e9 + 7) // time complexity O(log(min(x,y)))
+int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
 {
-    ll res = 1;
+    int res = 1;
     while (y > 0)
     {
         if (y % 2 == 1)
@@ -115,37 +115,41 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 
+
 void solve()
 {
-    int n;
-    cin>>n;
     string s;
     cin>>s;
-    vector<pair<int,char>> index;
-    for(int i=1;i<n;i+=2){
-        if(s[i-1]!=s[i] && i&1){
-            if(index.size()>0){
-                auto p=index.back();
-                if(p.second==s[i-1]){
-                    index.push_back({i,s[i]});
-                }else{
-                    index.push_back({i-1,s[i-1]});
+    int n=s.length();
+
+    int count=1e9;
+    int cnt = 0;
+    for(int i=0;i<n;i++){
+        
+        if(s[i]=='1'){
+            int j=i+1;
+            while(j<n){
+                
+                if(s[j]=='0'){
+                    // cout<<s[j]<<" ";
+                    cnt+=j-i+1;
+                    i++;
                 }
+                
+                j++;
 
-            }else{
-                index.push_back({i,s[i]});
             }
-
+            if (j == n )
+            {
+                count = min(count, cnt);
+                break;
+            }
         }
-
     }
-    cout<<index.size()<<endl;
-    for(auto i:index){
-        cout<<i.first+1<<" ";
-
-    }
-    cout<<endl;
-
+    count = min(count, cnt);
+    
+    cout<<count<<endl;
+    
 }
 int32_t main()
 {

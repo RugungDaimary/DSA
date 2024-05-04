@@ -117,35 +117,16 @@ vector<int> getDivisors(int n)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    vector<pair<int,char>> index;
-    for(int i=1;i<n;i+=2){
-        if(s[i-1]!=s[i] && i&1){
-            if(index.size()>0){
-                auto p=index.back();
-                if(p.second==s[i-1]){
-                    index.push_back({i,s[i]});
-                }else{
-                    index.push_back({i-1,s[i-1]});
-                }
-
-            }else{
-                index.push_back({i,s[i]});
-            }
-
-        }
+    ll n,k;
+    cin>>n>>k;
+    vll a(n);
+    for(ll i=0;i<n;i++){
+        cin>>a[i];
 
     }
-    cout<<index.size()<<endl;
-    for(auto i:index){
-        cout<<i.first+1<<" ";
+    
 
-    }
-    cout<<endl;
-
+    
 }
 int32_t main()
 {

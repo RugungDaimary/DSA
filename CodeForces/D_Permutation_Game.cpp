@@ -1,39 +1,29 @@
 
 //******************************************************************
-//						 Rugung Daimary
+//	             Rugung Daimary
 //******************************************************************
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace std;
 using namespace __gnu_pbds;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // increasing                                                                                            //  greater<int> //for decreasing
-// for multi_set ,     use less_equal<int>
-//  find_by_order(value at index k), order_of_key(no of elments smaller than,k)
-using namespace std;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // strictly increasing                                                                                            //  greater<int> //for decreasing
+//                      (less_equal<int>)=> for increasing(multi_set)
+// =>find_by_order(value at index k), order_of_key(no of elments smaller than(k))
 #define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
+#define nline '\n'
 #define ll long long
-#define yes cout << "Yes" << endl;
-#define no cout << "No" << endl;
+#define yes cout << "YES" << endl;
+#define no cout << "NO" << endl;
 #define vi vector<int>
 #define vll vector<long long>
-#define vvi vector<vector<int>>
-#define vvll vector<vector<long long>>
-#define pii pair<int, int>
-#define vpii vector<pair<int, int>>
-#define mp make_pair
 #define ff first
 #define ss second
-#define PI 3.141592653589793238462
 #define set_bits __builtin_popcountll
-#define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define max3(a, b, c) max(max((a), (b)), (c))
-#define max4(a, b, c, d) max(max((a), (b)), max((c), (d)))
-int max(int a, int b) { return a > b ? a : b; }
-int min(int a, int b) { return a < b ? a : b; }
+/*--------------------------------------------------------------------------------------------------------------------------*/
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
@@ -114,39 +104,57 @@ vector<int> getDivisors(int n)
     sort(divisors.begin(), divisors.end());
     return divisors;
 }
+/*--------------------------------------------------------------------------------------------------------------------------*/
 
+ll dfs(ll idx, vll &p, vll &a, ll k, vector<bool>&visited)
+{
+
+    if (k == 0)
+    {
+        return 0;
+    }
+   
+    ll ans = a[idx] * (k);
+    visited[idx] = true;
+    if(!visited[p[idx]]){
+        ans = max(ans, a[idx] + dfs(p[idx], p, a, k - 1,visited));
+    }
+    visited[idx]=false;
+    return ans;
+
+   
+}
 void solve()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    vector<pair<int,char>> index;
-    for(int i=1;i<n;i+=2){
-        if(s[i-1]!=s[i] && i&1){
-            if(index.size()>0){
-                auto p=index.back();
-                if(p.second==s[i-1]){
-                    index.push_back({i,s[i]});
-                }else{
-                    index.push_back({i-1,s[i-1]});
-                }
-
-            }else{
-                index.push_back({i,s[i]});
-            }
-
-        }
-
+    ll n, k, b, s;
+    cin >> n >> k >> b >> s;
+    vll p(n+1);
+    for (int i = 1; i < n+1; i++)
+    {
+        cin >> p[i];
     }
-    cout<<index.size()<<endl;
-    for(auto i:index){
-        cout<<i.first+1<<" ";
-
+    vll a(n+1);
+    for (int i = 1; i < n+1; i++)
+    {
+        cin >> a[i];
     }
-    cout<<endl;
-
+    vector<bool>visited(n+1,false);
+    ll Bodya = dfs(b, p, a, k,visited);
+    ll Sasha = dfs(s, p, a, k,visited);
+    if (Bodya > Sasha)
+    {
+        cout << "Bodya" << endl;
+    }
+    else if (Sasha > Bodya)
+    {
+        cout << "Sasha" << endl;
+    }
+    else
+    {
+        cout << "Draw" << endl;
+    }
 }
+
 int32_t main()
 {
     ll t;
@@ -157,4 +165,5 @@ int32_t main()
     }
     return 0;
 }
+
 ;

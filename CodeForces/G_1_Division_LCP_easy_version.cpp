@@ -1,45 +1,35 @@
 
 //******************************************************************
-//						 Rugung Daimary
+//	             Rugung Daimary
 //******************************************************************
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace std;
 using namespace __gnu_pbds;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // increasing                                                                                            //  greater<int> //for decreasing
-// for multi_set ,     use less_equal<int>
-//  find_by_order(value at index k), order_of_key(no of elments smaller than,k)
-using namespace std;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // strictly increasing                                                                                            //  greater<int> //for decreasing
+//                      (less_equal<int>)=> for increasing(multi_set)
+// =>find_by_order(value at index k), order_of_key(no of elments smaller than(k))
 #define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
+#define nline '\n'
 #define ll long long
-#define yes cout << "Yes" << endl;
-#define no cout << "No" << endl;
+#define yes cout << "YES" << endl;
+#define no cout << "NO" << endl;
 #define vi vector<int>
 #define vll vector<long long>
-#define vvi vector<vector<int>>
-#define vvl vector<vector<long long>>
-#define pii pair<int, int>
-#define vpii vector<pair<int, int>>
-#define mp make_pair
 #define ff first
 #define ss second
-#define PI 3.141592653589793238462
 #define set_bits __builtin_popcountll
-#define sz(x) ((int)(x).size())
 #define all(x) (x).begin(), (x).end()
-#define max3(a, b, c) max(max((a), (b)), (c))
-#define max4(a, b, c, d) max(max((a), (b)), max((c), (d)))
-int max(int a, int b) { return a > b ? a : b; }
-int min(int a, int b) { return a < b ? a : b; }
+/*--------------------------------------------------------------------------------------------------------------------------*/
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-int pow(int x, int y, int p = 1e9 + 7) // time complexity O(log(min(x,y)))
+ll pow(ll x, ll y, ll p = 1e9 + 7) // time complexity O(log(min(x,y)))
 {
-    int res = 1;
+    ll res = 1;
     while (y > 0)
     {
         if (y % 2 == 1)
@@ -114,10 +104,13 @@ vector<int> getDivisors(int n)
     sort(divisors.begin(), divisors.end());
     return divisors;
 }
-
+/*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    cout<<max4(1,0,4,7)<<endl;
+    int n,l,r;
+    cin>>n>>l>>r;
+    string s;
+    cin>>s;
     
 }
 int32_t main()
@@ -130,4 +123,5 @@ int32_t main()
     }
     return 0;
 }
+
 ;

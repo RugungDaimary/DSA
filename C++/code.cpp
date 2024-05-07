@@ -63,7 +63,7 @@ int main()
 {
     vector<int> nums = {1, 0, 3, 0, 2, 0, 0, 4, 5};
     int k = 2;
-    // cout<<subArrayCount(nums,k)<<endl;
+    cout<<subArrayCount(nums,k)<<endl;
     // 4 2 3 1
     // 4 1 3 2
     // 6 8 5 3

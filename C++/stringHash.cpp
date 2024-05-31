@@ -1,6 +1,4 @@
 
-
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -170,5 +168,3 @@ int main()
 // tc - O(nlogn)
 // sc - O(n)
  
-
-

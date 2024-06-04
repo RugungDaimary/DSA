@@ -57,14 +57,20 @@ map<int, vector<int>> factor(int x)
     }
     return f;
 }
-bool cmp(const pair<int, int> &a, const pair<int, int> &b) // sorting for priority queue(reverse of vector<pair<int,int>> sorting)
+struct cmp // (all the logic  here will be reverse for Priority Queue)
 {
-    if (a.first == b.first)
+    // sort(v.begin(),v.end(),cmp()); //for vector
+    // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
+
+    bool operator()(const pair<int, int> &a, const pair<int, int> &b)
     {
-        return a.second < b.second; // Sort ascending by second parameter when first parameters are equal
+        if (a.first == b.first)
+        {
+            return a.second > b.second; // Sort in decreasing order  by second parameter
+        }
+        return a.first < b.first; //sort in increasing order by first parameter
     }
-    return a.first > b.first; // Otherwise, sort descending by first parameter
-}
+};
 map<char, int> findSubstring(string &s)
 { // finding substring of same character of maximum length
     map<char, int> mp;
@@ -107,23 +113,7 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    ll n,m;
-    cin>>n>>m;
-    ll OR = 0;
-    if (n == 0)
-    {
-        for (ll i = 0; i <= m; i++)
-        {
-            OR|=(n+i);
-        }
-    }else{
-        for (ll i = -m; i <= m; i++)
-        {
-            OR |= (n - i);
-        }
-        
-    }
-    cout << OR << endl;
+    
 }
 int32_t main()
 {

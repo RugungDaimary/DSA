@@ -113,42 +113,23 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    ll n;
+    int n;
     cin>>n;
-    vll a(n),b(n);
-    map<ll, ll> bMap;
-    for(ll i=0;i<n;i++)cin>>a[i];
-    for(ll i=0;i<n;i++){
-        cin>>b[i];
-        bMap[b[i]]++;
+    vector<pair<int,int>>v;
+    for(int i=0;i<n;i++){
+        int a,b;
+        cin>>a>>b;
+        v.push_back({a,b});
     }
-    ll m;
-    cin>>m;
-    vll d(m);
-    map<ll,ll>dMap;
-    for(ll i=0;i<m;i++){
+    ll maxi=0;
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            ll m=(ll)(v[i].first*v[j].second+v[i].second*v[j].first);
+            maxi=max(maxi,m);
 
-        cin>>d[i];
-        dMap[d[i]]++;
-    }
-
-    if(bMap.find(d[m-1])==bMap.end()){
-        no;
-        return;
-    }
-    for(ll i=0;i<n;i++){
-        if(a[i]!=b[i]){
-            if(dMap.find(b[i])==dMap.end() || dMap[b[i]]<=0){
-                no;
-                return;
-            }else{
-                dMap[b[i]]--;
-            }
         }
     }
-    yes;
-    return;
-   
+    cout<<maxi<<endl;
     
 }
 int32_t main()

@@ -115,41 +115,90 @@ void solve()
 {
     ll n;
     cin>>n;
-    vll a(n),b(n);
-    map<ll, ll> bMap;
-    for(ll i=0;i<n;i++)cin>>a[i];
-    for(ll i=0;i<n;i++){
-        cin>>b[i];
-        bMap[b[i]]++;
-    }
-    ll m;
-    cin>>m;
-    vll d(m);
-    map<ll,ll>dMap;
-    for(ll i=0;i<m;i++){
+    vll x(n);
+    vll p(n);
+    for(ll i=0;i<n;i++)cin>>x[i];
+    for(ll i=0;i<n;i++)cin>>p[i];
+    int cnt=0;
+    for(int i=0;i<n-1;i++){
+        int sum=x[i]+p[i];
+        if(sum<x[i+1])cnt++;
 
-        cin>>d[i];
-        dMap[d[i]]++;
     }
-
-    if(bMap.find(d[m-1])==bMap.end()){
-        no;
+    if(cnt<=1){
+        yes;
         return;
     }
-    for(ll i=0;i<n;i++){
-        if(a[i]!=b[i]){
-            if(dMap.find(b[i])==dMap.end() || dMap[b[i]]<=0){
-                no;
-                return;
-            }else{
-                dMap[b[i]]--;
-            }
+    
+    cnt=0;
+    for (int i = n-1; i >0; i--)
+    {
+        int diff = x[i] - p[i];
+        if (diff > x[i - 1])
+            cnt++;
+    }
+    if (cnt <= 1)
+    {
+        yes;
+        return;
+    }
+   
+    int left=-1;
+    int right=-1;
+    for(int i=0;i<n-1;i++){
+        int sum = x[i] + p[i];
+        if (sum < x[i + 1]){
+            right=i;
+            break;
         }
     }
-    yes;
+    for (int i = n - 1; i > 0; i--)
+    {
+        int diff = x[i] - p[i];
+        if (diff > x[i - 1]){
+            left=i;
+            break;
+        }
+    }
+    if(right>=left){
+        yes;
+        return;
+    }else if(left>=right){
+        if(left-right<=1){
+            yes;
+            return;
+        }
+        
+    }
+
+    left=0;right=0;
+    for(int i=0;i<n-1;i++){
+        int diff=x[i+1]-p[i+1];
+        if(diff>x[i]){
+            left=i;
+            break;
+        }
+    }
+    for(int i=n-2;i>=0;i--){
+        int sum=x[i]+p[i];
+        if(sum<x[i+1]){
+            right=i+1;
+            break;
+        }
+    }
+    if(right>=left){
+        if(right-left<=1){
+            yes;
+            return;
+        }
+
+    }else if(left>=right){
+        yes;
+        return;
+
+    }
+    no;
     return;
-   
-    
 }
 int32_t main()
 {

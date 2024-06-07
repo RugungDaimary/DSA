@@ -3,15 +3,15 @@ using namespace std;
 class TrieNode{
     public:
     char data;
-    TrieNode* children[26];
-    // vector<TrieNode *> children{26,NULL};
+    // TrieNode* children[26];
+    vector<TrieNode *> children{26,NULL};
     bool isTerminal;
     TrieNode(char d){
         this->data=d;
-        for(int i=0;i<26;i++){
-            children[i]=NULL;
+        // for(int i=0;i<26;i++){
+        //     children[i]=NULL;
            
-        }
+        // }
         this->isTerminal=false;
     }
 

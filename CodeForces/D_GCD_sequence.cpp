@@ -111,44 +111,51 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 /*--------------------------------------------------------------------------------------------------------------------------*/
+bool check(int idx,vi &a){
+    int n=a.size();
+    vi temp;
+    for(int i=0;i<n;i++){
+        if(i!=idx)temp.push_back(a[i]);
+    }
+    vector<int>GCD;
+    for (int i = 1; i < temp.size(); i++)
+    {
+        int g = gcd(temp[i - 1], temp[i]);
+        GCD.push_back(g);
+    }
+    if(is_sorted(GCD.begin(),GCD.end()))return true;
+    return false;
+}
 void solve()
 {
-    ll n;
+    int n;
     cin>>n;
-    vll a(n),b(n);
-    map<ll, ll> bMap;
-    for(ll i=0;i<n;i++)cin>>a[i];
-    for(ll i=0;i<n;i++){
-        cin>>b[i];
-        bMap[b[i]]++;
+    vi a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
     }
-    ll m;
-    cin>>m;
-    vll d(m);
-    map<ll,ll>dMap;
-    for(ll i=0;i<m;i++){
-
-        cin>>d[i];
-        dMap[d[i]]++;
+    vector<int>GCD;
+    for(int i=1;i<n;i++){
+        int g=gcd(a[i-1],a[i]);
+        GCD.push_back(g);
     }
-
-    if(bMap.find(d[m-1])==bMap.end()){
-        no;
+    if(is_sorted(GCD.begin(),GCD.end())){
+        yes;
         return;
     }
-    for(ll i=0;i<n;i++){
-        if(a[i]!=b[i]){
-            if(dMap.find(b[i])==dMap.end() || dMap[b[i]]<=0){
-                no;
-                return;
-            }else{
-                dMap[b[i]]--;
-            }
+    int idx=0;
+    while(idx<GCD.size()-1){
+        if(GCD[idx]>GCD[idx+1]){
+            break;
         }
+        idx++;
     }
-    yes;
+    if(check(idx,a)||check(idx+1,a)||check(idx+2,a)){
+        yes;
+        return;
+    }
+    no;
     return;
-   
     
 }
 int32_t main()

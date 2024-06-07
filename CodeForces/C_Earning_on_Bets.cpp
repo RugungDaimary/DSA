@@ -111,45 +111,30 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 /*--------------------------------------------------------------------------------------------------------------------------*/
+
 void solve()
 {
-    ll n;
+    int n;
     cin>>n;
-    vll a(n),b(n);
-    map<ll, ll> bMap;
-    for(ll i=0;i<n;i++)cin>>a[i];
-    for(ll i=0;i<n;i++){
-        cin>>b[i];
-        bMap[b[i]]++;
+    vi k(n);
+    for(int i=0;i<n;i++)cin>>k[i];
+    ll LCM=k[0];
+    for(int i=1;i<n;i++){
+        LCM=lcm(LCM,k[i]);
     }
-    ll m;
-    cin>>m;
-    vll d(m);
-    map<ll,ll>dMap;
-    for(ll i=0;i<m;i++){
-
-        cin>>d[i];
-        dMap[d[i]]++;
+    ll money=0;
+    for(int i=0;i<n;i++){
+        money+=(LCM/k[i]);
     }
-
-    if(bMap.find(d[m-1])==bMap.end()){
-        no;
-        return;
-    }
-    for(ll i=0;i<n;i++){
-        if(a[i]!=b[i]){
-            if(dMap.find(b[i])==dMap.end() || dMap[b[i]]<=0){
-                no;
-                return;
-            }else{
-                dMap[b[i]]--;
-            }
+    if(LCM>money){
+        for(int i=0;i<n;i++){
+            cout<<(LCM/k[i])<<" ";
         }
+        cout<<endl;
+
+    }else{
+        cout<<-1<<endl;
     }
-    yes;
-    return;
-   
-    
 }
 int32_t main()
 {

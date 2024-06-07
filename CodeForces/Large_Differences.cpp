@@ -113,43 +113,66 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    ll n;
-    cin>>n;
-    vll a(n),b(n);
-    map<ll, ll> bMap;
-    for(ll i=0;i<n;i++)cin>>a[i];
-    for(ll i=0;i<n;i++){
-        cin>>b[i];
-        bMap[b[i]]++;
-    }
-    ll m;
-    cin>>m;
-    vll d(m);
-    map<ll,ll>dMap;
-    for(ll i=0;i<m;i++){
+    int n,k;
+    cin>>n>>k;
 
-        cin>>d[i];
-        dMap[d[i]]++;
-    }
+    vi a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
 
-    if(bMap.find(d[m-1])==bMap.end()){
-        no;
-        return;
     }
-    for(ll i=0;i<n;i++){
-        if(a[i]!=b[i]){
-            if(dMap.find(b[i])==dMap.end() || dMap[b[i]]<=0){
-                no;
-                return;
-            }else{
-                dMap[b[i]]--;
-            }
+    vll diff;
+    ll prefix=0;
+    for(int  i=1;i<n;i++){
+        diff.push_back(abs(a[i-1]-a[i]));
+        prefix += abs(a[i - 1] - a[i]);
+    }
+    ll sum=INT_MIN;
+    for(int i=0;i<n;i++){
+        if(i==0){
+            int x = abs(a[i +1] - 1);
+            ll s = prefix - diff[0] + x ;
+            sum = max(sum, s);
+        }
+        else if (i == n - 1)
+        {
+            int x = abs(a[i-1] - 1);
+            ll s = prefix - diff[diff.size()-1] + x;
+            sum = max(sum, s);
+        }
+        else
+        {
+            int x=abs(a[i-1]-1);
+            int y=abs(a[i+1]-1);
+            ll s=prefix-diff[i]-diff[i-1]+x+y;
+            sum=max(sum,s);
+
+        }
+       
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (i == 0)
+        {
+            int x = abs(a[i + 1] - k);
+            ll s = prefix - diff[0] + x;
+            sum = max(sum, s);
+        }
+        else if (i == n - 1)
+        {
+            int x = abs(a[i - 1] - k);
+            ll s = prefix - diff[diff.size() - 1] + x;
+            sum = max(sum, s);
+        }
+        else
+        {
+            int x = abs(a[i - 1] - k);
+            int y = abs(a[i + 1] - k);
+            ll s = prefix - diff[i] - diff[i - 1] + x + y;
+            sum = max(sum, s);
         }
     }
-    yes;
-    return;
-   
-    
+    cout << sum << endl;
 }
 int32_t main()
 {

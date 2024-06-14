@@ -113,7 +113,25 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    int n;
+    cin>>n;
+    int ans=-1;
+    ll sum=INT_MIN;
+    for(int x=2;x<=n;x++){
+        ll s = 0;
+        int i=1;
+        while(x*i<=n){
+            s+=x*i;
+            i++;
+        }
+       
+        if(s>sum){
+            // cout<<sum<<endl;
+            sum=s;
+            ans=x;
+        }
+    }
+    cout<<ans<<endl;
 }
 int32_t main()
 {

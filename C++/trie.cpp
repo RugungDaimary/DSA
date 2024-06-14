@@ -4,14 +4,11 @@ class TrieNode{
     public:
     char data;
     // TrieNode* children[26];
-    vector<TrieNode *> children{26,NULL};
+    vector<TrieNode *> children;
     bool isTerminal;
     TrieNode(char d){
         this->data=d;
-        // for(int i=0;i<26;i++){
-        //     children[i]=NULL;
-           
-        // }
+        this->children= vector<TrieNode *>(26, nullptr);
         this->isTerminal=false;
     }
 

@@ -57,20 +57,32 @@ map<int, vector<int>> factor(int x)
     }
     return f;
 }
-struct cmp // (all the logic  here will be reverse for Priority Queue)
+struct cmp
 {
-    // sort(v.begin(),v.end(),cmp()); //for vector
-    // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
-
+ 
     bool operator()(const pair<int, int> &a, const pair<int, int> &b)
     {
         if (a.first == b.first)
         {
-            return a.second > b.second; // Sort in decreasing order  by second parameter
+            return a.second > b.second; // Min heap based on the second element if first elements are equal
         }
-        return a.first < b.first; //sort in increasing order by first parameter
+        return a.first > b.first;
     }
 };
+// struct cmp // (all the logic  here will be reverse for Priority Queue)
+// {
+//     // sort(v.begin(),v.end(),cmp()); //for vector
+//     // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
+
+//     bool operator()(const pair<int, int> &a, const pair<int, int> &b)
+//     {
+//         if (a.first == b.first)
+//         {
+//             return a.second > b.second; // Sort in decreasing order  by second parameter
+//         }
+//         return a.first < b.first; //sort in increasing order by first parameter
+//     }
+// };
 map<char, int> findSubstring(string &s)
 { // finding substring of same character of maximum length
     map<char, int> mp;
@@ -113,7 +125,44 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
+    ll h,n;
+    cin>>h>>n;
+    vll a(n);
+    vll c(n);
+    ll i=0;
+    while(i<n){
+        cin >> a[i];
+        i++;
+    }
+    i=0;
+    while(i<n){
+        cin >> c[i];
+        i++;
+    }
     
+    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>,greater<pair<ll,ll>>> pq;
+    ll output = 1;
+    i=0;
+    while(i<n){
+        h -= a[i];
+        pq.push({1 + c[i], i});
+        i++;
+    }
+   
+    while (h > 0)
+    {
+        ll top = pq.top().first;
+        while (!pq.empty() && pq.top().first == top)
+        {
+            ll ind = pq.top().second;
+            h -= a[ind];
+            pq.pop();
+            ll new_c = top + c[ind];
+            pq.push({new_c, ind});
+        }
+        output = top;
+    }
+    cout << output << endl;
 }
 int32_t main()
 {

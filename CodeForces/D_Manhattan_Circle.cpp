@@ -113,7 +113,39 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<char>>v(n,vector<char>(m));
+    for(ll i=0;i<n;i++){
+        for(ll j=0;j<m;j++){
+            cin>>v[i][j];
+        }
+    }
+    int cntRow=0;
+    int cntCol=0;
+    int col,row;
+    bool flag=false;
+    for(ll i=0;i<n;i++){
+        for(ll j=0;j<m;j++){
+            if(v[i][j]=='#'){
+                col=j;
+                row=i;
+                flag=true;
+                break;
+            }
+        }
+        if(flag)break;
+    }
+    for(ll i=row;i<n;i++){
+        if(v[i][col]=='#')cntRow++;
+    }
+    for(ll j=col;j<m;j++){
+        if(v[row][j]=='#')cntCol++;
+    }
+    // cout<<cntRow<<" "<<cntCol<<endl;
+    int x=ceil(cntRow*1.0/2)+row;
+    int y=ceil(cntCol*1.0/2)+col;
+    cout<<x<<" "<<y<<endl;
 }
 int32_t main()
 {

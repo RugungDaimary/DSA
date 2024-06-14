@@ -113,7 +113,34 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    int n,k;
+    cin>>n>>k;
+    // int rem=n-(k-1);
+    // int req=(k*(k+1))/2;
+
+    // if(rem>=req){
+    //     yes;
+    // }else{
+    //     no;
+    // }
+   
+    int ans=(k*(k+1))/2+k-1;
+    if(k==1)
+    {
+        yes;
+        return;
+    }
+    else if(ans<=n)
+    {
+        yes;
+        return;
+    }
+    else
+    {
+        no;
+        return;
+    }
+
 }
 int32_t main()
 {

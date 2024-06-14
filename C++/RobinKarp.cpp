@@ -1,4 +1,25 @@
 
+
+// useful for multiple pattern matching
+
+/*
+In the context of string hashing, when you want to find the hash of a substring from index l to r,
+you typically subtract the hash of the prefix up to l-1 from the hash of the prefix up to r. However,
+this subtraction leaves the hash value scaled by the power of the base corresponding to the position l.
+ To correct this scaling, you multiply by the inverse of that power.
+Example
+Consider a string s = "abcde", and you want to find the hash of the substring "bcd" which spans from index l = 1 to r = 3.
+1. Compute Prefix Hashes: Suppose the hash values for each prefix are already computed in hashValues1.
+2. Subtract to Get Raw Substring Hash: The raw hash of "bcd" can be computed as:
+   ll rawHash = (hashValues1[3] - hashValues1[0] + MOD1) % MOD1;
+This subtraction gives you the hash of "bcd" but scaled by powersOfBase1[1] ie. powersOfBase1[l]
+ (because the substring starts from index 1).
+3. Correct the Scaling: To get the actual hash of "bcd", you need to multiply rawHash by the modular inverse of powersOfBase1[1]:
+ ll correctHash = (rawHash * inversePowersOfBase1[1]) % MOD1;
+ This multiplication adjusts the hash to account for the fact that the substring does not start at the beginning of the string.
+
+
+*/
 #include <bits/stdc++.h>
 using namespace std;
 #define fastio() ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
@@ -46,6 +67,14 @@ struct Hashing
             powersOfBase1[i] = (powersOfBase1[i - 1] * base1) % MOD1;
             powersOfBase2[i] = (powersOfBase2[i - 1] * base2) % MOD2;
         }
+        // for(auto i:powersOfBase1){
+        //     cout<<i<<" ";
+        // }
+        // cout<<endl;
+        // for(auto i:powersOfBase2){
+        //     cout<<i<<" ";
+        // }
+        // cout<<endl;
         inversePowersOfBase1[n] = expo(powersOfBase1[n], MOD1 - 2, MOD1);
         inversePowersOfBase2[n] = expo(powersOfBase2[n], MOD2 - 2, MOD2);
         for (int i = n - 1; i >= 0; i--)
@@ -55,7 +84,13 @@ struct Hashing
         }
 
         // Compute hash values
+        // the hash value of the entire string s will be stored at hashValues1[n - 1]
+        //  where n is the length of the string.This is because the hash values are
+        // being accumulated in a prefix sum manner, where each hashValues1[i] contains
+        // the hash of the substring from the start of the string up to the i - th character.
+        // Thus, hashValues1[n - 1] will contain the hash of the entire string
         for (int i = 0; i < n; i++)
+
         {
             hashValues1[i] = ((s[i] - 'a' + 1LL) * powersOfBase1[i]) % MOD1;
             if (i > 0)
@@ -81,21 +116,21 @@ struct Hashing
         return {hash1, hash2};
     }
 
-    int containsSubstring(string needle)
+    int containsSubstring(string pattern)
     {
-        int m = needle.length();
+        int m = pattern.length();
         if (m > n)
             return -1;
 
-        // Compute the hash of the needle
-        Hashing needleHasher(needle);
-        pair<ll, ll> needleHash = needleHasher.substringHash(0, m - 1);
+        // Compute the hash of the pattern
+        Hashing patternHasher(pattern);
+        pair<ll, ll> patternHash = patternHasher.substringHash(0, m - 1);
 
-        // Check each substring of length m in the haystack
+        // Check each substring of length m in the text
         for (int i = 0; i <= n - m; i++)
         {
             pair<ll, ll> currentHash = substringHash(i, i + m - 1);
-            if (currentHash == needleHash)
+            if (currentHash == patternHash)
                 return i;
         }
         return -1;
@@ -105,10 +140,10 @@ struct Hashing
 int main()
 {
     fastio();
-    string text = "abxrcabddbhjwenwejroeicreo4ilktvoignjeabxrca";
-    string pattern = "abdd";
-    Hashing hasher(text);
-    int index = hasher.containsSubstring(pattern);
+    string text = "abcde";
+    string pattern = "e";
+    Hashing textHasher(text);
+    int index = textHasher.containsSubstring(pattern);
     if (index != -1)
     {
         cout << " starting at index " << index << ".\n";
@@ -122,114 +157,7 @@ int main()
 }
 
 /*
-// Priyansh Code
-#include <bits/stdc++.h>
-using namespace std;
-
-#define fastio() ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-
-#define MOD 1000000007
-#define MOD1 998244353
-#define INF 1e18
-
-typedef long long ll;
-
-ll expo(ll a, ll b, ll mod)
-{
-    ll res = 1;
-    while (b > 0)
-    {
-        if (b & 1)
-            res = (res * a) % mod;
-        a = (a * a) % mod;
-        b = b >> 1;
-    }
-    return res;
-}
-
-struct Hashing
-{
-    string s;
-    int n;
-    int primes;
-    vector<long long> hashPrimes = {1000000009, 100000007};
-
-    const long long base = 31;
-    vector<vector<long long>> hashValues;
-    vector<vector<long long>> powersOfBase;
-    vector<vector<long long>> inversePowersOfBase;
-    Hashing(string a)
-    {
-        primes = (hashPrimes.size());
-        hashValues.resize(primes);
-        powersOfBase.resize(primes);
-        inversePowersOfBase.resize(primes);
-        s = a;
-        n = s.length();
-        for (int i = 0; i < (hashPrimes.size()); i++)
-        {
-            powersOfBase[i].resize(n + 1);
-            inversePowersOfBase[i].resize(n + 1);
-            powersOfBase[i][0] = 1;
-            for (int j = 1; j <= n; j++)
-            {
-                powersOfBase[i][j] = (base * powersOfBase[i][j - 1]) % hashPrimes[i];
-            }
-            inversePowersOfBase[i][n] = expo(powersOfBase[i][n], hashPrimes[i] - 2, hashPrimes[i]);
-            for (int j = n - 1; j >= 0; j--)
-            {
-                inversePowersOfBase[i][j] = (inversePowersOfBase[i][j + 1] * base) % hashPrimes[i];
-            }
-        }
-        for (int i = 0; i < (hashPrimes.size()); i++)
-        {
-            hashValues[i].resize(n);
-            for (int j = 0; j < n; j++)
-            {
-                hashValues[i][j] = ((s[j] - 'a' + 1LL) * powersOfBase[i][j]) % hashPrimes[i];
-                hashValues[i][j] = (hashValues[i][j] + (j > 0 ? hashValues[i][j - 1] : 0LL)) % hashPrimes[i];
-            }
-        }
-    }
-    vector<long long> substringHash(int l, int r) // O(1)
-    {
-        vector<long long> hash(primes);
-        for (int i = 0; i < primes; i++)
-        {
-            long long val1 = hashValues[i][r];
-            long long val2 = l > 0 ? hashValues[i][l - 1] : 0LL;
-            hash[i] = (val1 - val2 + hashPrimes[i]) % hashPrimes[i];
-            hash[i] = (hash[i] * inversePowersOfBase[i][l]) % hashPrimes[i];
-        }
-        return hash;
-    }
-
-
-};
-
-int main()
-{
-    fastio();
-    string s = "abxrcabddbhjwenwejroeic reo4ilktvoig njeabxrca";
-    Hashing h(s);
-    cout<<s.size()<<endl;
-
-    vector<long long> hash = h.substringHash(0, 6);
-    vector<long long> hash1 = h.substringHash(39, 45);
-
-    for(auto i:hash)cout<<i<<" ";
-    cout<<endl;
-    for(auto i:hash1)cout<<i<<" ";
-
-
-    return 0;
-}
-
-*/
-
-/*
-
-// Normal Robin Karp Code
+// Normal Robin Karp Code(useful for single pattern matching)
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
@@ -254,9 +182,9 @@ pair<ll, ll> hashPair(string s, ll n)
     return {hash1, hash2};
 }
 
-int strStr(string haystack, string needle)
+int stringMatching(string text, string pattern)
 {
-    ll n = haystack.length(), m = needle.length();
+    ll n = text.length(), m = pattern.length();
     if (n < m)
         return -1;
 
@@ -267,26 +195,25 @@ int strStr(string haystack, string needle)
         MAX_WEIGHT_2 = (MAX_WEIGHT_2 * base_2) % MOD_2;
     }
 
-    pair<ll, ll> hashNeedle = hashPair(needle, m);
-    pair<ll, ll> hashHay = {0, 0};
+    pair<ll, ll> hashPattern = hashPair(pattern, m);
+    pair<ll, ll> hashText = {0, 0};
 
     for (ll i = 0; i < n - m + 1; i++)
     {
         if (i == 0)
         {
-            hashHay = hashPair(haystack, m);
+            hashText = hashPair(text, m);
         }
         else
         {
-            hashHay.first = (hashHay.first * base_1 - (haystack[i - 1] - 'a' + 1) * MAX_WEIGHT_1 % MOD_1 + MOD_1) % MOD_1;
-            hashHay.first = (hashHay.first + (haystack[i + m - 1] - 'a' + 1)) % MOD_1;
-
-            hashHay.second = (hashHay.second * base_2 - (haystack[i - 1] - 'a' + 1) * MAX_WEIGHT_2 % MOD_2 + MOD_2) % MOD_2;
-            hashHay.second = (hashHay.second + (haystack[i + m - 1] - 'a' + 1)) % MOD_2;
+            hashText.first = (hashText.first * base_1 - (text[i - 1] - 'a' + 1) * MAX_WEIGHT_1 % MOD_1 + MOD_1) % MOD_1;
+            hashText.first = (hashText.first + (text[i + m - 1] - 'a' + 1)) % MOD_1;
+            hashText.second = (hashText.second * base_2 - (text[i - 1] - 'a' + 1) * MAX_WEIGHT_2 % MOD_2 + MOD_2) % MOD_2;
+            hashText.second = (hashText.second + (text[i + m - 1] - 'a' + 1)) % MOD_2;
 
         }
 
-        if (hashNeedle.first == hashHay.first && hashNeedle.second == hashHay.second)
+        if (hashPattern.first == hashText.first && hashPattern.second == hashText.second)
         {
             return i;
         }
@@ -297,12 +224,11 @@ int strStr(string haystack, string needle)
 
 int main()
 {
-    // string s = "abxrcabddbhjwenwejroeic reo4ilktvoig njeabxrca";
-    string haystack = "abxrcabddbhjwenwejroeic reo4ilktvoig njeabxrca", needle = "bdd";
-    cout << strStr(haystack, needle) << endl;
+    string text = "abxrcabddbhjwenwejroeic reo4ilktvoig njeabxrca";
+    string pattern= "bdd";
+    cout << stringMatching(text, pattern) << endl;
     return 0;
 }
-
 
 
 */

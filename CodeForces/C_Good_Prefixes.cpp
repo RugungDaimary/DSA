@@ -113,7 +113,21 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    ll n;
+    cin>>n;
+    vll a(n);
+    for(int i=0;i<n;i++)cin>>a[i];
+    ll maxi=a[0];
+    ll cnt=0;
+    ll sum=a[0];
+    if(a[0]==0)cnt++;
+    for(int i=1;i<n;i++){
+       sum+=a[i];
+       maxi=max(maxi,a[i]);
+       if(sum-maxi==maxi)cnt++;
+
+    }
+    cout<<cnt<<endl;
 }
 int32_t main()
 {

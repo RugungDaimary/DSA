@@ -111,9 +111,35 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 /*--------------------------------------------------------------------------------------------------------------------------*/
+
 void solve()
 {
-    
+    ll x, y, z, k;
+    cin >> x >> y >> z >> k;
+    ll cnt = 0;
+
+    for (ll i = 1; i <= x; i++)
+    {
+        if (i > k)
+            break; 
+        for (ll j = 1; j <= y; j++)
+        {
+            ll t = i * j;
+            if (t > k)
+                break; 
+
+            if (k % t == 0)
+            {
+                ll it = k / t;
+                if (it >= 1 && it <= z)
+                {
+                    cnt = max(cnt, (x - i + 1) * (y - j + 1) * (z - it + 1));
+                }
+            }
+        }
+    }
+
+    cout << cnt << endl;
 }
 int32_t main()
 {

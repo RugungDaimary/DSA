@@ -116,42 +116,15 @@ void solve()
 {
     ll n;
     cin>>n;
-    vi a(n);
-    if (n <= 1)
-    {
-        a[0] = 7;
+    if(n==1){
+        cout<<1<<endl;
+        return;
     }
-    else if (n <= 2)
-    {
-        a[0] = 7;
-        a[1] = 3;
+    for(int i=0;i<n-2;i++){
+        cout<<3<<" ";
     }
-    else if (n <= 3)
-    {   int x=7;
-        for(int i=0;i<3;i++){
-            a[i]=x;
-            x -= 2;
-        }
-    }
-    else
-    {
-        for(int i=0;i<n;i++){
-            if(i==1){
-                a[i]=5;
-                continue;
-            }
-            if(i==n-1){
-                a[i]=3;
-                continue;
-            }
-            a[i]=7;
-        }
-       
-    }
-    for(auto i:a){
-        cout<<i<<" ";
-    }
-    cout<<endl;
+    
+    cout<<2<<" "<<1<<endl;
 }
 
 int32_t main()

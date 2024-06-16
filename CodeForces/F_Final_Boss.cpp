@@ -1,4 +1,3 @@
-
 //******************************************************************
 //	             Rugung Daimary
 //******************************************************************
@@ -27,19 +26,22 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-ll pow(ll x, ll y, ll p = 1e9 + 7) // time complexity O(log(min(x,y)))
+
+ll pow(ll x, ll y, ll p = 1e9 + 7)
 {
-    ll res = 1;
-    while (y > 0)
+    if (y == 0)
     {
-        if (y % 2 == 1)
-        {
-            res = (res * x) % p;
-        }
-        y = y >> 1;
-        x = (x * x) % p;
+        return 1;
     }
-    return res % p;
+    ll half = pow(x, y / 2, p);
+    half = (half * half) % p;
+    // If y is odd, multiply by x once more
+    if (y % 2 == 1)
+    {
+        half = (half * x) % p;
+    }
+
+    return half;
 }
 map<int, vector<int>> factor(int x)
 {
@@ -57,32 +59,7 @@ map<int, vector<int>> factor(int x)
     }
     return f;
 }
-struct cmp
-{
- 
-    bool operator()(const pair<int, int> &a, const pair<int, int> &b)
-    {
-        if (a.first == b.first)
-        {
-            return a.second > b.second; // Min heap based on the second element if first elements are equal
-        }
-        return a.first > b.first;
-    }
-};
-// struct cmp // (all the logic  here will be reverse for Priority Queue)
-// {
-//     // sort(v.begin(),v.end(),cmp()); //for vector
-//     // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
 
-//     bool operator()(const pair<int, int> &a, const pair<int, int> &b)
-//     {
-//         if (a.first == b.first)
-//         {
-//             return a.second > b.second; // Sort in decreasing order  by second parameter
-//         }
-//         return a.first < b.first; //sort in increasing order by first parameter
-//     }
-// };
 map<char, int> findSubstring(string &s)
 { // finding substring of same character of maximum length
     map<char, int> mp;
@@ -129,40 +106,40 @@ void solve()
     cin>>h>>n;
     vll a(n);
     vll c(n);
-    ll i=0;
-    while(i<n){
+    for(int i = 0; i < n; i++) {
         cin >> a[i];
-        i++;
     }
-    i=0;
-    while(i<n){
+    for(int i = 0; i < n; i++) {
         cin >> c[i];
-        i++;
     }
-    
-    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>,greater<pair<ll,ll>>> pq;
-    ll output = 1;
-    i=0;
-    while(i<n){
-        h -= a[i];
-        pq.push({1 + c[i], i});
-        i++;
+    //use binary search on answers
+    for(int i=0;i<n;i++){
+        h-=a[i];
     }
-   
-    while (h > 0)
-    {
-        ll top = pq.top().first;
-        while (!pq.empty() && pq.top().first == top)
-        {
-            ll ind = pq.top().second;
-            h -= a[ind];
-            pq.pop();
-            ll new_c = top + c[ind];
-            pq.push({new_c, ind});
+    if(h<=0){
+        cout<<1<<endl;
+        return;
+        
+    }
+    ll low=0,high=1e12;
+    // ll ans=high;
+    while(low<=high){
+        ll mid=(low+high)/2;
+        ll sum=0;
+        for(int i=0;i<n;i++){
+            sum+=(mid/c[i])*a[i];
         }
-        output = top;
+        if(h-sum<=0){
+            // ans=mid;
+            high=mid-1;
+
+        }else{
+            low=mid+1;
+
+        }
+
     }
-    cout << output << endl;
+    cout<<low+1<<endl;
 }
 int32_t main()
 {
@@ -174,5 +151,3 @@ int32_t main()
     }
     return 0;
 }
-
-;

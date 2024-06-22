@@ -20,7 +20,6 @@ int countSetBits(int n)
     return bitsTill2Pow + leftMostbits + countSetBits(n - (1 << power));
 }
 int main()
-
 {
     cout << countSetBits(6) << endl;
 

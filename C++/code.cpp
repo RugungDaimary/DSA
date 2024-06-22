@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 // count subarrays containing atleast k zeros
+// 1, 0, 3, 0, 2, 0, 0, 4, 5
 int subArrayCount(vector<int> &nums, int k)
 {
     int n = nums.size();
@@ -45,10 +46,9 @@ int subArrayCount(vector<int> &nums, int k)
         }
         right++;
     }
-    // for(auto i:index){
-    //     cout<<i<<" ";
-    // }
-    // cout<<endl;
+
+
+
     for (auto i : index)
     {
         if (i != -1)

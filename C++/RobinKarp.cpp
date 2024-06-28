@@ -1,12 +1,10 @@
-
-
 // useful for multiple pattern matching
 
 /*
 In the context of string hashing, when you want to find the hash of a substring from index l to r,
 you typically subtract the hash of the prefix up to l-1 from the hash of the prefix up to r. However,
 this subtraction leaves the hash value scaled by the power of the base corresponding to the position l.
- To correct this scaling, you multiply by the inverse of that power.
+To correct this scaling, you multiply by the inverse of that power.
 Example
 Consider a string s = "abcde", and you want to find the hash of the substring "bcd" which spans from index l = 1 to r = 3.
 1. Compute Prefix Hashes: Suppose the hash values for each prefix are already computed in hashValues1.

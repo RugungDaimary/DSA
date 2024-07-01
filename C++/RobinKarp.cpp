@@ -25,7 +25,7 @@ using namespace std;
 #define MOD2 100000007
 #define base1 26
 #define base2 27
-typedef long long ll;
+#define ll long long
 ll expo(ll a, ll b, ll mod)
 {
     ll res = 1;

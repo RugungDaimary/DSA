@@ -3,7 +3,7 @@ using namespace std;
 vector<int> parent;
 vector<int> Rank;
 
-int find(int x)
+int find(int x) //O(logn)
 {
     if (x == parent[x])
         return x;

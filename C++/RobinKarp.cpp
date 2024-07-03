@@ -90,11 +90,11 @@ struct Hashing
         for (int i = 0; i < n; i++)
 
         {
-            hashValues1[i] = ((s[i] - 'a' + 1LL) * powersOfBase1[i]) % MOD1;
+            hashValues1[i] = ((s[i] - '0' + 1LL) * powersOfBase1[i]) % MOD1;
             if (i > 0)
                 hashValues1[i] = (hashValues1[i] + hashValues1[i - 1]) % MOD1;
 
-            hashValues2[i] = ((s[i] - 'a' + 1LL) * powersOfBase2[i]) % MOD2;
+            hashValues2[i] = ((s[i] - '0' + 1LL) * powersOfBase2[i]) % MOD2;
             if (i > 0)
                 hashValues2[i] = (hashValues2[i] + hashValues2[i - 1]) % MOD2;
         }

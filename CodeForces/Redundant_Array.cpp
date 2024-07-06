@@ -215,7 +215,24 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-   
+    ll n;
+    cin>>n;
+    vll a(n);
+    for(ll i=0;i<n;i++){
+        cin>>a[i];
+    }
+    ll cost=n;
+    unordered_map<ll,ll>mp;
+    for(ll i=0;i<n;i++){
+      
+        mp[a[i]]++;
+    }
+    for(auto i:mp){
+        ll key=i.first;
+        ll fq=i.second;
+        cost=min(cost,(n-fq)*key);
+    }
+    cout<<cost<<endl;
 }
 int32_t main()
 {

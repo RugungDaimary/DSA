@@ -215,7 +215,21 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-   
+    ll n,k,h;
+    cin>>n>>k>>h;
+    if(n<=h){
+        cout<<0<<endl;
+        return;
+    }
+    float diff = (h * 1.0 / k);
+    ll cnt=0;
+    if(n-h+1>=0){
+        cnt+=(ll)(n-h+1)*n;
+    }
+    ll x=(h)-(diff);
+    if(x>=diff+1)
+        cnt+=(ll)(x*(x+1))/2;
+    cout<<cnt<<endl;
 }
 int32_t main()
 {

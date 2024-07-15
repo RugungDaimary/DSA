@@ -8,7 +8,7 @@ int find(int x) //O(logn)
     if (x == parent[x])
         return x;
 
-    return parent[x] = find(parent[x]);
+    return parent[x] = find(parent[x]);//path compression
 }
 
 void Union(int x, int y)

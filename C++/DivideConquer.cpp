@@ -62,7 +62,7 @@ int partition(int arr[], int s, int e) {
   int pivotIndex = s;
   int pivotElement = arr[s];
 
-  //step2: find right positio for pivot Element and place it there
+  //step2: find right position for pivot Element and place it there
   int count = 0;
   for(int i=s+1; i<=e; i++) {
     if(arr[i] <= pivotElement) {
@@ -195,6 +195,8 @@ void solveMaze(int arr[][4], int row, int col, int i, int j,vector<vector<bool>>
     visited[i - 1][j] = false;
   }
 }
+
+
 //N -Qneen Problem
 void printSolution(vector<vector<char>>&board,int n){
   for (int i = 0; i < n; i++)
@@ -303,6 +305,10 @@ void N_Queen(vector<vector<char>>&board,int col,int n){
     }
   }
 }
+
+
+
+
 
 //Generate all Paranthesis
 void generate(vector<string>&ans,int n,int used_open,int used_close,int rem_open,int rem_close,string output){

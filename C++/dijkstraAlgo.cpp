@@ -28,6 +28,37 @@ public:
         }
     }
 
+    //using Priority_queue
+
+    void Dijkstra(int src, int n)
+    {
+        vector<int> distance(n, INT_MAX);
+        priority_queue<pair<int, int>,vector<pair<int,int>,greater<pair<int,int>> pq; 
+        distance[src] = 0;
+        pq.push({0, src});
+
+        while (!st.empty())
+        {
+            auto top = pq.top();
+            pq.pop();
+            int dist = top.first;
+            int node = top.second;
+
+            for (auto &nbr : adjList[node])
+            {
+                int v = nbr.first;
+                int d = nbr.second;
+
+                if (dist + d < distance[v])
+                {
+                    distance[v]=dist+d;
+                    pq.push({ dist + d,nbr});
+                }
+            }
+        }
+
+        
+    }
 
     void Dijkstra(int src, int n)
     {
@@ -70,6 +101,7 @@ public:
             cout << "Distance from " << src << " to " << i << " is " << distance[i] << endl;
         }
     }
+
 };
 int main()
 {

@@ -26,37 +26,45 @@ public:
             cout << endl;
         }
     }
-    void floydWarshall(int n){
-        vector<vector<int>>dist(n,vector<int>(n,1e9));
-        //mark all diagonals 0
-        for(int i=0;i<n;i++){
-           dist[i][i]=0;
+    void floydWarshall(int n)
+    {
+        vector<vector<int>> dist(n, vector<int>(n, 1e9));
+        // mark all diagonals 0
+        for (int i = 0; i < n; i++)
+        {
+            dist[i][i] = 0;
         }
-        //graph ke according dist insert kardiya hai
-        for(auto t:adjList){
-            for(auto nbr:t.second){
-                int u=t.first;
-                int v=nbr.first;
-                int wt=nbr.second;
-                dist[u][v]=wt;
+        // graph ke according dist insert kardiya hai
+        for (auto t : adjList)
+        {
+            for (auto nbr : t.second)
+            {
+                int u = t.first;
+                int v = nbr.first;
+                int wt = nbr.second;
+                dist[u][v] = min(wt,dist[u][v]);
             }
         }
-        for(int helper=0;helper<n;helper++){
-            for(int src=0;src<n;src++){
-                for(int dest=0;dest<n;dest++){
-                    dist[src][dest]=min(dist[src][dest],dist[src][helper]+dist[helper][dest]);
+        for (int via = 0; via < n; via++)
+        {
+            for (int src = 0; src < n; src++)
+            {
+                for (int dest = 0; dest < n; dest++)
+                {
+                    dist[src][dest] = min(dist[src][dest], dist[src][via] + dist[via][dest]);
                 }
             }
         }
-        cout<<"Printing Distances : \n";
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                cout<<dist[i][j]<<" ";
+        cout << "Printing Distances : \n";
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                cout << dist[i][j] << " ";
             }
-            cout<<endl;
+            cout << endl;
         }
-
-
+        // if the cost of diagonal elements is -ve then these is -ve cycle
     }
 };
 int main()
@@ -68,7 +76,7 @@ int main()
     g.addEdge(1, 3, 4, 1);
     g.addEdge(2, 1, 1, 1);
     g.addEdge(3, 2, 2, 1);
-   
+
     g.floydWarshall(4);
 
     return 0;

@@ -1,7 +1,6 @@
 
 // SELECTION SORT
-/*
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 void selectionSort(int arr[], int size)
 {
@@ -21,29 +20,7 @@ void selectionSort(int arr[], int size)
         swap(arr[i], arr[minIndex]);
     }
 }
-void print(int arr[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-}
-int main()
-{
-    int arr[] = {4, 7, 1, 0, 8, 6};
-
-    print(arr, 6);
-    selectionSort(arr, 6);
-    print(arr, 6);
-
-    return 0;
-}
-*/
-
 //BUBBLE SORT
-#include<iostream>
-using namespace std;
 void bubbleSort(int *arr,int n){
     for (int j = 0; j <n-1; j++)
     {
@@ -56,10 +33,49 @@ void bubbleSort(int *arr,int n){
         }
     }
     
-    
-    
 }
 
+// count sort
+
+// TC=>O(n+k)
+// SC=>O(k)
+// Non comparison algorithm
+// this algorithm is not inPlace algorithm(uses extra space of k size,where k is the maximum element)
+// all elements should be +ve only
+
+void countSort(vector<int> &arr)
+{
+    int n = arr.size();
+    // intially we make count array which will store the frequency of all elements
+    int maxi = *max_element(arr.begin(), arr.end());
+    vector<int> count(maxi + 1, 0); // means all numbers will be in range up to max element only
+    for (int i = 0; i < n; i++)
+    {
+        count[arr[i]]++;
+    }
+    for (int i = 0; i < count.size(); i++)
+    {
+        cout << count[i] << " ";
+    }
+    cout << endl;
+    arr.resize(0);
+    // we will change in original array only
+    for (int i = 0; i < count.size(); i++)
+    {
+        if (count[i] > 0)
+        {
+            for (int j = 0; j < count[i]; j++)
+            {
+                arr.push_back(i);
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
 int main(){
     int arr[]={10,12,1,8,2,5};
     for (int i = 0; i < 6; i++)
@@ -74,8 +90,5 @@ int main(){
 
     }
     cout<<endl;
-    
-
-    
     return 0;
 }

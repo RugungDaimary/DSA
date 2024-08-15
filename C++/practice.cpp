@@ -15,13 +15,14 @@ int countSetBits(int n)
         return 0;
 
     int power = calculatePower(n);
+    cout << power << endl;
     int bitsTill2Pow = (1 << (power - 1)) * power; // counting set bits upto 2 power(pow)
     int leftMostbits = (n - (1 << power) + 1);
     return bitsTill2Pow + leftMostbits + countSetBits(n - (1 << power));
 }
 int main()
 {
-    cout << countSetBits(6) << endl;
+    cout << countSetBits(11) << endl;
 
     return 0;
 }

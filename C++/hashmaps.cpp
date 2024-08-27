@@ -1,4 +1,4 @@
-//unordered maps
+// unordered maps
 // #include<iostream>
 // #include<unordered_map>
 // #include<string>
@@ -76,190 +76,214 @@ int main(){
     return 0;
 }
 */
+
+
 #include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
-template<typename V>
-class MapNode{
-    public:
+
+template <typename V>
+class MapNode
+{
+public:
     string key;
     V value;
-    MapNode* next;
-    MapNode(string key,V value){
-        this->key=key;
-        this->value=value;
-        this->next=NULL;
+    MapNode *next;
+    MapNode(string key, V value)
+    {
+        this->key = key;
+        this->value = value;
+        this->next = NULL;
     }
-    ~MapNode(){
+    ~MapNode()
+    {
         delete next;
     }
 };
-template<typename V>
-class MAP{
-    MapNode<V>** buckets;
+
+template <typename V>
+class MAP
+{
+    vector<MapNode<V> *> buckets;
     int count;
     int numBuckets;
-    public:
-    MAP(){
-        count=0;
-        numBuckets=5;
-        buckets=new MapNode<V>*[numBuckets];
-        for(int i=0;i<numBuckets;i++){
-            buckets[i]=NULL;
-        }
-    }
-    ~MAP(){
-        for(int i=0;i<numBuckets;i++){
-            delete buckets[i];//deleting each linked list first
-        }
-        delete []buckets;//deleting entire array
+
+public:
+    MAP()
+    {
+        count = 0;
+        numBuckets = 5;
+        buckets.resize(numBuckets, NULL);
     }
 
-    int size(){
+    ~MAP()
+    {
+        for (int i = 0; i < numBuckets; i++)
+        {
+            delete buckets[i]; // Deleting each linked list first
+        }
+    }
+
+    int size()
+    {
         return count;
     }
-    private:
-    int getBucketIndex(string key){
-        int hashCode=0;
-        int currentCoeff=1;
-        for (int i = key.length()-1; i >=0; i--)
+
+private:
+    int getBucketIndex(string key)
+    {
+        int hashCode = 0;
+        int currentCoeff = 1;
+        for (int i = key.length() - 1; i >= 0; i--)
         {
-           hashCode+=key[i]*currentCoeff;
-           hashCode=hashCode%numBuckets;
-           currentCoeff*=37;
-           currentCoeff=currentCoeff%numBuckets;
+            hashCode += key[i] * currentCoeff;
+            hashCode = hashCode % numBuckets;
+            currentCoeff *= 37;
+            currentCoeff = currentCoeff % numBuckets;
         }
-        return hashCode%numBuckets;
+        return hashCode % numBuckets;
     }
-    public:
-    double getLoadFactor(){
-        return (1.0*count)/numBuckets;
+
+public:
+    double getLoadFactor()
+    {
+        return (1.0 * count) / numBuckets;
     }
-    void insert(string key,V value){
-        int bucketIndex=getBucketIndex(key);
-        MapNode<V>* head=buckets[bucketIndex];
-        while (head!=NULL)//searching for same key 
-        {
-            if(head->key==key){
-                head->value=value;
+
+    void insert(string key, V value)
+    {
+        int bucketIndex = getBucketIndex(key);
+        MapNode<V> *head = buckets[bucketIndex];
+        while (head != NULL)
+        { // Searching for same key
+            if (head->key == key)
+            {
+                head->value = value;
                 return;
             }
-            head=head->next;
+            head = head->next;
         }
-        //means ,same key is not found
-        head=buckets[bucketIndex];//resetting head
-        MapNode<V>* node=new MapNode<V>(key,value);//creating a new node
-        node->next=head;
-        buckets[bucketIndex]=node;
+
+        // Key not found, create a new node
+        head = buckets[bucketIndex];                   // Resetting head
+        MapNode<V> *node = new MapNode<V>(key, value); // Creating a new node
+        node->next = head;
+        buckets[bucketIndex] = node;
         count++;
-        // REHASHING CONCEPT
-        double loadFactor = (1.0) * count / numBuckets;
-        if (loadFactor > 0.7)
+
+        // Rehashing if load factor exceeds threshold
+        if (getLoadFactor() > 0.7)
         {
             rehash();
         }
     }
-    V getValue(string key){
+
+    V getValue(string key)
+    {
         int bucketIndex = getBucketIndex(key);
         MapNode<V> *head = buckets[bucketIndex];
-        while (head!=NULL)
-        {   
-            if(head->key==key){
+        while (head != NULL)
+        {
+            if (head->key == key)
+            {
                 return head->value;
             }
-            head=head->next;
+            head = head->next;
         }
-        return 0;//if key is not found//default  
+        return 0; // Return 0 if key is not found
     }
-    V remove(string key){
-        int bucketIndex=getBucketIndex(key);
-        MapNode<V>* head=buckets[bucketIndex];
-        MapNode<V>* prev=NULL;
-        while (head!=NULL)
+
+    V remove(string key)
+    {
+        int bucketIndex = getBucketIndex(key);
+        MapNode<V> *head = buckets[bucketIndex];
+        MapNode<V> *prev = NULL;
+        while (head != NULL)
         {
-            if(head->key==key){
-                if(prev==NULL){
-                    buckets[bucketIndex]=head->next;
-
-                }else{
-                    prev->next=head->next;
-
+            if (head->key == key)
+            {
+                if (prev == NULL)
+                {
+                    buckets[bucketIndex] = head->next;
                 }
-                V value=head->value;
-                head->next=NULL;
+                else
+                {
+                    prev->next = head->next;
+                }
+                V value = head->value;
+                head->next = NULL;
                 delete head;
                 count--;
                 return value;
             }
-            prev=head;
-            head=head->next;
-            
+            prev = head;
+            head = head->next;
         }
-        return 0;//if not found
+        return 0; // Return 0 if key is not found
     }
 
-    //REHASHING CONCEPT
-    private:
-    void rehash(){
-        MapNode<V>* *temp=buckets;
-        buckets=new MapNode<V>*[2*numBuckets];
-        for (int i = 0; i < 2*numBuckets; i++)
+private:
+    void rehash()
+    {
+        vector<MapNode<V> *> temp = buckets;
+        numBuckets *= 2;
+        buckets.clear();
+        buckets.resize(numBuckets, NULL);
+        count = 0;
+
+        for (int i = 0; i < temp.size(); i++)
         {
-            buckets[i]=NULL;
-        }
-        int oldBucketCount=numBuckets;
-        numBuckets*=2;//resetting all values
-        count=0;
-        for (int i = 0; i < oldBucketCount; i++)
-        {
-            MapNode<V>* head=temp[i];
-            while (head!=NULL)
+            MapNode<V> *head = temp[i];
+            while (head != NULL)
             {
-                string key=head->key;
-                V value=head->value;
-                insert(key,value);
-                head=head->next;
+                string key = head->key;
+                V value = head->value;
+                insert(key, value);
+                head = head->next;
             }
         }
-        //for deleting the old bucket
-        for (int i = 0; i < oldBucketCount; i++)
+
+        // Deleting the old bucket list
+        for (int i = 0; i < temp.size(); i++)
         {
-            MapNode<V> * head=temp[i];
+            MapNode<V> *head = temp[i];
             delete head;
         }
-        delete [] temp;   
     }
-    
 };
-int main(){
-    MAP<int> map;
-    //initially bucket size is 5;
-    for (int i = 0; i < 10; i++)
-    {
-        char c='0'+i;
-        string key="abc";
-        key=key+c;
-        int value=1+i;
-        map.insert(key,value);
-        cout<<map.getLoadFactor()<<endl;
 
-    }
-    cout<<endl;
-    cout << "Size : " << map.size() << endl;
-    cout<<endl;
-    map.remove("abc2");//default value is inserted after removed
-    map.remove("abc7");
+int main()
+{
+    MAP<int> map;
+    // Initially bucket size is 5;
     for (int i = 0; i < 10; i++)
     {
         char c = '0' + i;
         string key = "abc";
         key = key + c;
-        
-        cout << key<<" : "<<map.getValue(key)<< endl;
+        int value = 1 + i;
+        map.insert(key, value);
+        cout << map.getLoadFactor() << endl;
     }
-    cout<<endl;
-    cout<<"Size : "<<map.size()<<endl;
+
+    cout << endl;
+    cout << "Size : " << map.size() << endl;
+    cout << endl;
+
+    map.remove("abc2");
+    map.remove("abc7");
+
+    for (int i = 0; i < 10; i++)
+    {
+        char c = '0' + i;
+        string key = "abc";
+        key = key + c;
+        cout << key << " : " << map.getValue(key) << endl;
+    }
+
+    cout << endl;
+    cout << "Size : " << map.size() << endl;
 
     return 0;
 }

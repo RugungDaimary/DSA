@@ -6,10 +6,10 @@ class TrieNode{
     // TrieNode* children[26];
     vector<TrieNode *> children;
     bool isTerminal;
-    TrieNode(char d){
-        this->data=d;
-        this->children= vector<TrieNode *>(26, nullptr);
-        this->isTerminal=false;
+    TrieNode(char d):children(26,NULL),isTerminal(false),data(d){
+        // this->data=d;
+        // this->children= vector<TrieNode *>(26, nullptr);
+        // this->isTerminal=false;
     }
 
 };

@@ -215,6 +215,16 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
+    vector<int>nums={1,4,0,7,8,3,2};
+    pbds st;
+
+    for(int i=nums.size()-1;i>=0;i--){
+        int cnt=st.order_of_key(nums[i]);
+        
+        cout<<nums[i]<<"->"<<cnt<<endl;
+        st.insert(nums[i]);
+
+    }
     
 }
 int32_t main()

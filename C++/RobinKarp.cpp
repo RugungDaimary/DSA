@@ -1,23 +1,3 @@
-// useful for multiple pattern matching
-
-/*
-In the context of string hashing, when you want to find the hash of a substring from index l to r,
-you typically subtract the hash of the prefix up to l-1 from the hash of the prefix up to r. However,
-this subtraction leaves the hash value scaled by the power of the base corresponding to the position l.
-To correct this scaling, you multiply by the inverse of that power.
-Example
-Consider a string s = "abcde", and you want to find the hash of the substring "bcd" which spans from index l = 1 to r = 3.
-1. Compute Prefix Hashes: Suppose the hash values for each prefix are already computed in hashValues1.
-2. Subtract to Get Raw Substring Hash: The raw hash of "bcd" can be computed as:
-   ll rawHash = (hashValues1[3] - hashValues1[0] + MOD1) % MOD1;
-This subtraction gives you the hash of "bcd" but scaled by powersOfBase1[1] ie. powersOfBase1[l]
- (because the substring starts from index 1).
-3. Correct the Scaling: To get the actual hash of "bcd", you need to multiply rawHash by the modular inverse of powersOfBase1[1]:
- ll correctHash = (rawHash * inversePowersOfBase1[1]) % MOD1;
- This multiplication adjusts the hash to account for the fact that the substring does not start at the beginning of the string.
-
-
-*/
 #include <bits/stdc++.h>
 using namespace std;
 #define fastio() ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
@@ -28,15 +8,19 @@ using namespace std;
 #define ll long long
 ll expo(ll a, ll b, ll mod)
 {
-    ll res = 1;
-    while (b > 0)
-    {
-        if (b & 1)
-            res = (res * a) % mod;
-        a = (a * a) % mod;
-        b = b >> 1;
-    }
-    return res;
+    // ll res = 1;
+    // while (b > 0)
+    // {
+    //     if (b & 1)
+    //         res = (res * a) % mod;
+    //     a = (a * a) % mod;
+    //     b = b >> 1;
+    // }
+    // return res;
+    if(b==0) return 1;
+    ll ans=expo(a,b/2,mod);
+    if(b&1) return (((ans*ans)%mod)*a)%mod;
+    return (ans*ans)%mod;
 }
 
 struct Hashing
@@ -65,14 +49,6 @@ struct Hashing
             powersOfBase1[i] = (powersOfBase1[i - 1] * base1) % MOD1;
             powersOfBase2[i] = (powersOfBase2[i - 1] * base2) % MOD2;
         }
-        // for(auto i:powersOfBase1){
-        //     cout<<i<<" ";
-        // }
-        // cout<<endl;
-        // for(auto i:powersOfBase2){
-        //     cout<<i<<" ";
-        // }
-        // cout<<endl;
         inversePowersOfBase1[n] = expo(powersOfBase1[n], MOD1 - 2, MOD1);
         inversePowersOfBase2[n] = expo(powersOfBase2[n], MOD2 - 2, MOD2);
         for (int i = n - 1; i >= 0; i--)
@@ -154,6 +130,9 @@ int main()
     return 0;
 }
 
+
+
+
 /*
 // Normal Robin Karp Code(useful for single pattern matching)
 #include <bits/stdc++.h>
@@ -226,6 +205,7 @@ int main()
     string pattern= "bdd";
     cout << stringMatching(text, pattern) << endl;
     return 0;
+    
 }
 
 

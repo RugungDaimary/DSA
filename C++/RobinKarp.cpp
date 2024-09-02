@@ -1,60 +1,57 @@
 #include <bits/stdc++.h>
-using namespace std;
 #define fastio() ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-#define MOD1 1000000009
-#define MOD2 100000007
+#define ll long long
+#define mod1 1000000007
+#define mod2 1000000009
 #define base1 26
 #define base2 27
-#define ll long long
-ll expo(ll a, ll b, ll mod)
+using namespace std;
+
+ll exp(ll a, ll b, ll mod) // log n
 {
-    // ll res = 1;
-    // while (b > 0)
-    // {
-    //     if (b & 1)
-    //         res = (res * a) % mod;
-    //     a = (a * a) % mod;
-    //     b = b >> 1;
-    // }
-    // return res;
-    if(b==0) return 1;
-    ll ans=expo(a,b/2,mod);
-    if(b&1) return (((ans*ans)%mod)*a)%mod;
-    return (ans*ans)%mod;
+    if (b == 0)
+        return 1LL;
+    ll half = exp(a, b / 2, mod);
+    half = (half * half) % mod;
+    if (b & 1)
+        return (half * a) % mod;
+    return half;
 }
 
-struct Hashing
+class Hashing
 {
     string s;
     int n;
-    vector<ll> hashValues1, hashValues2;
-    vector<ll> powersOfBase1, powersOfBase2;
-    vector<ll> inversePowersOfBase1, inversePowersOfBase2;
+    vector<ll> hashVal1, hashVal2;
+    vector<ll> pow1, pow2;
+    vector<ll> invPow1, invPow2;
 
-    Hashing(string a)
+public:
+    Hashing(string s) // O(n)
     {
-        s = a;
+        this->s = s;
         n = s.length();
-        hashValues1.resize(n);
-        hashValues2.resize(n);
-        powersOfBase1.resize(n + 1);
-        powersOfBase2.resize(n + 1);
-        inversePowersOfBase1.resize(n + 1);
-        inversePowersOfBase2.resize(n + 1);
+        hashVal1.resize(n);
+        hashVal2.resize(n);
+        pow1.resize(n + 1);
+        pow2.resize(n + 1);
+        invPow1.resize(n + 1);
+        invPow2.resize(n + 1);
 
-        // Compute powers and inverse powers of bases
-        powersOfBase1[0] = powersOfBase2[0] = 1;
+        pow1[0] = pow2[0] = 1;
         for (int i = 1; i <= n; i++)
         {
-            powersOfBase1[i] = (powersOfBase1[i - 1] * base1) % MOD1;
-            powersOfBase2[i] = (powersOfBase2[i - 1] * base2) % MOD2;
+            pow1[i] = (pow1[i - 1] * base1) % mod1;
+            pow2[i] = (pow2[i - 1] * base2) % mod2;
         }
-        inversePowersOfBase1[n] = expo(powersOfBase1[n], MOD1 - 2, MOD1);
-        inversePowersOfBase2[n] = expo(powersOfBase2[n], MOD2 - 2, MOD2);
+
+        // Finding Exponential -> O(n) as exp() is called for 2 times only
+        invPow1[n] = exp(pow1[n], mod1 - 2, mod1);
+        invPow2[n] = exp(pow2[n], mod2 - 2, mod2);
         for (int i = n - 1; i >= 0; i--)
         {
-            inversePowersOfBase1[i] = (inversePowersOfBase1[i + 1] * base1) % MOD1;
-            inversePowersOfBase2[i] = (inversePowersOfBase2[i + 1] * base2) % MOD2;
+            invPow1[i] = (invPow1[i + 1] * base1) % mod1;
+            invPow2[i] = (invPow2[i + 1] * base2) % mod2;
         }
 
         // Compute hash values
@@ -64,47 +61,48 @@ struct Hashing
         // the hash of the substring from the start of the string up to the i - th character.
         // Thus, hashValues1[n - 1] will contain the hash of the entire string
         for (int i = 0; i < n; i++)
-
         {
-            hashValues1[i] = ((s[i] - '0' + 1LL) * powersOfBase1[i]) % MOD1;
+            hashVal1[i] = ((s[i] - '0' + 1) * pow1[i]) % mod1;
             if (i > 0)
-                hashValues1[i] = (hashValues1[i] + hashValues1[i - 1]) % MOD1;
+            {
+                hashVal1[i] = (hashVal1[i] + hashVal1[i - 1]) % mod1;
+            }
 
-            hashValues2[i] = ((s[i] - '0' + 1LL) * powersOfBase2[i]) % MOD2;
+            hashVal2[i] = ((s[i] - '0' + 1) * pow2[i]) % mod2;
             if (i > 0)
-                hashValues2[i] = (hashValues2[i] + hashValues2[i - 1]) % MOD2;
+            {
+                hashVal2[i] = (hashVal2[i] + hashVal2[i - 1]) % mod2;
+            }
         }
     }
 
-    pair<ll, ll> substringHash(int l, int r) // O(1)
+    pair<ll, ll> findHash(int l, int r) // O(1)
     {
-        ll hash1 = hashValues1[r];
-        ll hash2 = hashValues2[r];
-        if (l > 0)
+        if (l == 0)
         {
-            hash1 = (hash1 - hashValues1[l - 1] + MOD1) % MOD1;
-            hash2 = (hash2 - hashValues2[l - 1] + MOD2) % MOD2;
+            return {hashVal1[r], hashVal2[r]};
         }
-        hash1 = (hash1 * inversePowersOfBase1[l]) % MOD1;
-        hash2 = (hash2 * inversePowersOfBase2[l]) % MOD2;
+        ll hash1 = (hashVal1[r] - hashVal1[l - 1] + mod1) % mod1;
+        hash1 = (hash1 * invPow1[l]) % mod1;
+
+        ll hash2 = (hashVal2[r] - hashVal2[l - 1] + mod2) % mod2;
+        hash2 = (hash2 * invPow2[l]) % mod2;
+
         return {hash1, hash2};
     }
 
-    int containsSubstring(string pattern)
+    int findSubstring(string &text) // O(n−m+1)
     {
-        int m = pattern.length();
+        int m = text.size();
         if (m > n)
-            return -1;
+            return -1; // Not found
 
-        // Compute the hash of the pattern
-        Hashing patternHasher(pattern);
-        pair<ll, ll> patternHash = patternHasher.substringHash(0, m - 1);
-
-        // Check each substring of length m in the text
+        Hashing textHasher(text);
+        pair<ll, ll> textVal = textHasher.findHash(0, m - 1);
         for (int i = 0; i <= n - m; i++)
         {
-            pair<ll, ll> currentHash = substringHash(i, i + m - 1);
-            if (currentHash == patternHash)
+            pair<ll, ll> curr = findHash(i, i + m - 1);
+            if (curr == textVal)
                 return i;
         }
         return -1;
@@ -113,25 +111,17 @@ struct Hashing
 
 int main()
 {
+    // O(n+n−m+1) Entire Implementation is
     fastio();
-    string text = "abcde";
-    string pattern = "e";
-    Hashing textHasher(text);
-    int index = textHasher.containsSubstring(pattern);
-    if (index != -1)
-    {
-        cout << " starting at index " << index << ".\n";
-    }
-    else
-    {
-        cout << "Not present\n";
-    }
+    string s = "abracadabra";
+    string pattern = "cad";
+    Hashing h(s);
+    int index = h.findSubstring(pattern);
+    cout << "Pattern found at index: " << index << endl;
+    
 
     return 0;
 }
-
-
-
 
 /*
 // Normal Robin Karp Code(useful for single pattern matching)
@@ -205,7 +195,7 @@ int main()
     string pattern= "bdd";
     cout << stringMatching(text, pattern) << endl;
     return 0;
-    
+
 }
 
 

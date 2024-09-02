@@ -83,6 +83,7 @@ int main(){
 #include <vector>
 using namespace std;
 
+const int mod=1e9+7;
 template <typename V>
 class MapNode
 {
@@ -140,7 +141,7 @@ private:
             hashCode += key[i] * currentCoeff;
             hashCode = hashCode % numBuckets;
             currentCoeff *= 37;
-            currentCoeff = currentCoeff % numBuckets;
+            currentCoeff = currentCoeff % mod;
         }
         return hashCode % numBuckets;
     }

@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
+// Without Memoization: Time Complexity =𝑂(2^(m+n))
 
 int LCS(string &s, string &t, int i, int j, vector<vector<int>>& dp) {
     if (i == s.length()) {

@@ -117,7 +117,14 @@ vector<int> getDivisors(int n)
 
 void solve()
 {
-    
+    pbds st;
+    st.insert(1);
+    st.insert(1);
+    st.insert(2);
+    st.insert(4);
+    for(auto it:st){
+        cout<<it<<" ";
+    }
     
 }
 int main()

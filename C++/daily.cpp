@@ -109,29 +109,7 @@ vector<int> findFriendCircles(const vector<int> &ratings)
 
     return result;
 }
-vector<int> duplicates(vector<int> arr)
-{
-    // code here
-    int n = arr.size();
-    int maxi=*max_element(arr.begin(),arr.end());
-    vector<int> seen(maxi+1, -1);
-    vector<int> dupli;
-    for (int i = 0; i < n; i++)
-    {
-        if (seen[arr[i]])
-        {
-            if(seen[arr[i]]==1)
-                dupli.push_back(arr[i]);
-            seen[arr[i]]++;
-            continue;
-        }
-        seen[arr[i]] = 1;
-    }
-    if (dupli.empty())
-        return {-1};
-    sort(dupli.begin(),dupli.end());
-    return dupli;
-}
+
 int main()
 {
     // vector<int> ratings = {1, 2, 4};
@@ -142,11 +120,7 @@ int main()
     //     cout << communitySize << " ";
     // }
     // cout << endl;
-    vector<int> arr = {2, 3, 1, 2, 3};
-    vector<int>dupli=duplicates(arr);
-    for(auto it:dupli){
-        cout<<it<<" ";
-    }
+    
 
     return 0;
 }

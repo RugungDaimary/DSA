@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
-#include <vector>
-#include <unordered_map>
-#include <algorithm>
 using namespace std;
+/*
 
 class DSU
 {
@@ -109,7 +107,69 @@ vector<int> findFriendCircles(const vector<int> &ratings)
 
     return result;
 }
+long long findMaximumScore(vector<int> &nums)
+{
 
+    int n = nums.size();
+    vector<pair<int, int>> v(n);
+    long long int ans = 0;
+    stack<pair<int, int>> st;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        while (!st.empty() && st.top().first <= nums[i])
+        {
+            st.pop();
+        }
+        if (!st.empty())
+        {
+            v[i] = st.top();
+        }
+        else
+        {
+            v[i] = {-1, -1};
+        }
+        st.push({nums[i], i});
+    }
+    // long long int ans=0;
+    for (int i = 0; i < n; i++)
+    {
+        int gt_ele = v[i].first;
+        int ind = v[i].second;
+        //    cout<<ans<<endl;
+        if (ind == -1)
+        {
+            ans += (1ll * nums[i] * (n - 1 - i));
+            //  cout<<ans<<endl;
+            return ans;
+        }
+        else
+        {
+            ans += (1LL * nums[i] * (ind - i));
+            i = ind - 1;
+            // cout<<ans<<endl;
+        }
+        if (ind == n - 1)
+            break;
+    }
+    return ans;
+}
+*/
+
+int xorQueries(vector<int> &arr, int l, int r)
+{
+    int n = arr.size();
+    vector<int> xorVal;
+    int x = 0;
+    for (int i = 0; i < n; i++)
+    {
+        x ^= arr[i];
+        xorVal.push_back(x);
+    }
+
+    int val = xorVal[r] ^ (l >= 1 ? xorVal[l - 1] : 0);
+
+    return val;
+}
 int main()
 {
     // vector<int> ratings = {1, 2, 4};
@@ -120,7 +180,11 @@ int main()
     //     cout << communitySize << " ";
     // }
     // cout << endl;
-    
+    vector<int> arr = {1, 3, 4, 8};
+    int l, r;
+    cin >> l >> r;
+    cout<<xorQueries(arr,l,r)<<endl;
+    // cout<<(3^4)<<endl;
 
     return 0;
 }

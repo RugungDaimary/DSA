@@ -202,7 +202,25 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    int n,k;
+    cin>>n>>k;
+    vi a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
+    int robin=0;
+    int cnt=0;
+    for(int i=0;i<n;i++){
+        if(a[i]>=k){
+            robin+=a[i];
+        }else if(a[i]==0){
+            if(robin!=0){
+                robin--;
+                cnt++;
+            }
+        }
+    }
+    cout<<cnt<<endl;
 }
 int32_t main()
 {

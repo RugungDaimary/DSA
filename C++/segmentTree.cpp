@@ -63,6 +63,6 @@ int main()
         cin >> l >> r;
         XOR.push_back(query(0, 0, n - 1, l, r));
     }
-
+   
     return 0;
 }

@@ -108,7 +108,7 @@ struct Hashing
         return {hash1, hash2};
     }
 
-    int containsSubstring(string pattern)
+    int findSubstring(string &pattern)
     {
         int m = pattern.length();
         if (m > n)
@@ -145,40 +145,6 @@ map<int, vector<int>> factor(int x)
     }
     return f;
 }
-struct cmp // (all the logic  here will be reverse for Priority Queue)
-{
-    // sort(v.begin(),v.end(),cmp()); //for vector
-    // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
-
-    bool operator()(const pair<int, int> &a, const pair<int, int> &b)
-    {
-        if (a.first == b.first)
-        {
-            return a.second > b.second; // Sort in decreasing order  by second parameter
-        }
-        return a.first < b.first; //sort in increasing order by first parameter
-    }
-};
-map<char, int> findSubstring(string &s)
-{ // finding substring of same character of maximum length
-    map<char, int> mp;
-
-    int count = 1;
-    for (int i = 0; i < s.length() - 1; i++)
-    {
-        if (s[i] == s[i + 1])
-        {
-            count++;
-        }
-        else
-        {
-            mp[s[i]] = max(mp[s[i]], count);
-            count = 1;
-        }
-        mp[s[i]] = max(mp[s[i]], count); // for last character
-    }
-    return mp;
-}
 vector<int> getDivisors(int n)
 {
     vector<int> divisors;
@@ -199,6 +165,20 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 
+struct cmp // (all the logic  here will be reverse for Priority Queue)
+{
+    // sort(v.begin(),v.end(),cmp()); //for vector
+    // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
+
+    bool operator()(const pair<int, int> &a, const pair<int, int> &b)
+    {
+        if (a.first == b.first)
+        {
+            return a.second > b.second; // Sort in decreasing order  by second parameter
+        }
+        return a.first < b.first; //sort in increasing order by first parameter
+    }
+};
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {

@@ -202,7 +202,19 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    ll n;
+    cin>>n;
+    vll p(n);
+    for(int i=0;i<n;i++){
+        cin>>p[i];
+    }
+    for(int i=n-1;i>=0;i--){
+        if(p[i]!=i+1){
+            cout<<i+2<<endl;
+            return;
+        }
+    }
+    cout<<0<<endl;
 }
 int32_t main()
 {

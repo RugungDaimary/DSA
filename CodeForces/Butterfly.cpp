@@ -1,4 +1,3 @@
-
 //******************************************************************
 //             Rugung Daimary
 //******************************************************************
@@ -202,7 +201,15 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    int r, g, b;
+    cin >> r >> g >> b;
+    vector<int> butterflies = {r, g, b};
+    sort(butterflies.begin(), butterflies.end());
+    if (butterflies[2] <= butterflies[0] + butterflies[1] ) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
 }
 int32_t main()
 {

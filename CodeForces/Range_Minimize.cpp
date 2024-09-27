@@ -31,20 +31,39 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
 int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-long long expo(long long a, long long b, long long mod=MOD)
+ll pow(ll x, ll y, ll p = 1e9 + 7)
 {
-    a = a % mod;
-    if (b == 0)
+    if (y == 0)
     {
         return 1;
     }
-    long long half = expo(a, b / 2, mod);
-    if (b&1)
+    ll half = pow(x, y / 2, p);
+    half = (half * half) % p;
+    // If y is odd, multiply by x once more
+    if (y % 2 == 1)
     {
-        return (a%mod * half%mod *half%mod) % mod;
+        half = (half * x) % p;
+    }
+
+    return half;
+}
+long long expo(long long base, long long exp, long long mod)
+{
+    base = base % mod;
+    // Base case: when exponent is 0
+    if (exp == 0)
+    {
+        return 1;
+    }
+    // If exponent is odd, multiply base with result of expo(base, exp-1, mod)
+    if (exp % 2 == 1)
+    {
+        return (base * expo(base, exp - 1, mod)) % mod;
     }
     else
     {
+        // If exponent is even, compute the result for half of the exponent
+        long long half = expo(base, exp / 2, mod);
         return (half%mod * half%mod) % mod;
     }
 }
@@ -52,59 +71,59 @@ struct Hashing
 {
     string s;
     int n;
-    vector<ll> hashVal1, hashVal2;
-    vector<ll> pow1, pow2;
-    vector<ll> invPow1, invPow2;
+    vector<ll> hashValues1, hashValues2;
+    vector<ll> powersOfBase1, powersOfBase2;
+    vector<ll> inversePowersOfBase1, inversePowersOfBase2;
     Hashing(string a)
     {
         s = a;
         n = s.length();
-        hashVal1.resize(n);
-        hashVal2.resize(n);
-        pow1.resize(n + 1);
-        pow2.resize(n + 1);
-        invPow1.resize(n + 1);
-        invPow2.resize(n + 1);
+        hashValues1.resize(n);
+        hashValues2.resize(n);
+        powersOfBase1.resize(n + 1);
+        powersOfBase2.resize(n + 1);
+        inversePowersOfBase1.resize(n + 1);
+        inversePowersOfBase2.resize(n + 1);
 
         // Compute powers and inverse powers of bases
-        pow1[0] = pow2[0] = 1;
+        powersOfBase1[0] = powersOfBase2[0] = 1;
         for (int i = 1; i <= n; i++)
         {
-            pow1[i] = (pow1[i - 1] * base1) % MOD1;
-            pow2[i] = (pow2[i - 1] * base2) % MOD2;
+            powersOfBase1[i] = (powersOfBase1[i - 1] * base1) % MOD1;
+            powersOfBase2[i] = (powersOfBase2[i - 1] * base2) % MOD2;
         }
-        invPow1[n] = expo(pow1[n], MOD1 - 2, MOD1);
-        invPow2[n] = expo(pow2[n], MOD2 - 2, MOD2);
+        inversePowersOfBase1[n] = expo(powersOfBase1[n], MOD1 - 2, MOD1);
+        inversePowersOfBase2[n] = expo(powersOfBase2[n], MOD2 - 2, MOD2);
         for (int i = n - 1; i >= 0; i--)
         {
-            invPow1[i] = (invPow1[i + 1] * base1) % MOD1;
-            invPow2[i] = (invPow2[i + 1] * base2) % MOD2;
+            inversePowersOfBase1[i] = (inversePowersOfBase1[i + 1] * base1) % MOD1;
+            inversePowersOfBase2[i] = (inversePowersOfBase2[i + 1] * base2) % MOD2;
         }
 
         // Compute hash values
         for (int i = 0; i < n; i++)
         {
-            hashVal1[i] = ((s[i] - '0' + 1LL) * pow1[i]) % MOD1;
+            hashValues1[i] = ((s[i] - '0' + 1LL) * powersOfBase1[i]) % MOD1;
             if (i > 0)
-                hashVal1[i] = (hashVal1[i] + hashVal1[i - 1]) % MOD1;
+                hashValues1[i] = (hashValues1[i] + hashValues1[i - 1]) % MOD1;
 
-            hashVal2[i] = ((s[i] - '0' + 1LL) * pow2[i]) % MOD2;
+            hashValues2[i] = ((s[i] - '0' + 1LL) * powersOfBase2[i]) % MOD2;
             if (i > 0)
-                hashVal2[i] = (hashVal2[i] + hashVal2[i - 1]) % MOD2;
+                hashValues2[i] = (hashValues2[i] + hashValues2[i - 1]) % MOD2;
         }
     }
 
     pair<ll, ll> substringHash(int l, int r) // O(1)
     {
-        ll hash1 = hashVal1[r];
-        ll hash2 = hashVal2[r];
+        ll hash1 = hashValues1[r];
+        ll hash2 = hashValues2[r];
         if (l > 0)
         {
-            hash1 = (hash1 - hashVal1[l - 1] + MOD1) % MOD1;
-            hash2 = (hash2 - hashVal2[l - 1] + MOD2) % MOD2;
+            hash1 = (hash1 - hashValues1[l - 1] + MOD1) % MOD1;
+            hash2 = (hash2 - hashValues2[l - 1] + MOD2) % MOD2;
         }
-        hash1 = (hash1 * invPow1[l]) % MOD1;
-        hash2 = (hash2 * invPow2[l]) % MOD2;
+        hash1 = (hash1 * inversePowersOfBase1[l]) % MOD1;
+        hash2 = (hash2 * inversePowersOfBase2[l]) % MOD2;
         return {hash1, hash2};
     }
 
@@ -202,7 +221,15 @@ vector<int> getDivisors(int n)
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    int n;
+    cin>>n;
+    vll a(n);
+    for(int i=0;i<n;i++)cin>>a[i];
+    int diff=INT_MAX;
+    sort(all(a));
+    diff=min({a[n-1]-a[2],a[n-2]-a[0],a[n-3]-a[0],a[n-1]-a[1],a[n-1]-a[0],a[n-2]-a[1]});
+    cout<<diff<<endl;
+
 }
 int32_t main()
 {

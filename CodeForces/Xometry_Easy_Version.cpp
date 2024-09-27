@@ -10,7 +10,10 @@ using namespace __gnu_pbds;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // strictly increasing                                                                                            //  greater<int> //for decreasing
 //                      (less_equal<int>)=> for increasing(multi_set)
 // =>find_by_order(value at index k), order_of_key(no of elments smaller than(k))
-#define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define fastio()                      \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
 #define nline '\n'
@@ -30,8 +33,17 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 /*--------------------------------------------------------------------------------------------------------------------------*/
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
-int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
-long long expo(long long a, long long b, long long mod=MOD)
+int gcd(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+long long expo(long long a, long long b, long long mod = MOD)
 {
     a = a % mod;
     if (b == 0)
@@ -39,13 +51,13 @@ long long expo(long long a, long long b, long long mod=MOD)
         return 1;
     }
     long long half = expo(a, b / 2, mod);
-    if (b&1)
+    if (b & 1)
     {
-        return (a%mod * half%mod *half%mod) % mod;
+        return (a % mod * half % mod * half % mod) % mod;
     }
     else
     {
-        return (half%mod * half%mod) % mod;
+        return (half % mod * half % mod) % mod;
     }
 }
 struct Hashing
@@ -108,7 +120,7 @@ struct Hashing
         return {hash1, hash2};
     }
 
-    int containsSubstring(string pattern)
+    int findSubstring(string &pattern)
     {
         int m = pattern.length();
         if (m > n)
@@ -145,40 +157,6 @@ map<int, vector<int>> factor(int x)
     }
     return f;
 }
-struct cmp // (all the logic  here will be reverse for Priority Queue)
-{
-    // sort(v.begin(),v.end(),cmp()); //for vector
-    // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
-
-    bool operator()(const pair<int, int> &a, const pair<int, int> &b)
-    {
-        if (a.first == b.first)
-        {
-            return a.second > b.second; // Sort in decreasing order  by second parameter
-        }
-        return a.first < b.first; //sort in increasing order by first parameter
-    }
-};
-map<char, int> findSubstring(string &s)
-{ // finding substring of same character of maximum length
-    map<char, int> mp;
-
-    int count = 1;
-    for (int i = 0; i < s.length() - 1; i++)
-    {
-        if (s[i] == s[i + 1])
-        {
-            count++;
-        }
-        else
-        {
-            mp[s[i]] = max(mp[s[i]], count);
-            count = 1;
-        }
-        mp[s[i]] = max(mp[s[i]], count); // for last character
-    }
-    return mp;
-}
 vector<int> getDivisors(int n)
 {
     vector<int> divisors;
@@ -199,9 +177,57 @@ vector<int> getDivisors(int n)
     return divisors;
 }
 
+struct cmp // (all the logic  here will be reverse for Priority Queue)
+{
+    // sort(v.begin(),v.end(),cmp()); //for vector
+    // priority_queue<pair<int,int>,vector<pair<int,int>>,cmp>pq; //for PQ
+
+    bool operator()(const pair<int, int> &a, const pair<int, int> &b)
+    {
+        if (a.first == b.first)
+        {
+            return a.second > b.second; // Sort in decreasing order  by second parameter
+        }
+        return a.first < b.first; // sort in increasing order by first parameter
+    }
+};
 /*--------------------------------------------------------------------------------------------------------------------------*/
+int arr[2097152];
+void fun(int i,char op,int n,vi &a){
+    for(int j=i+1;j<n;j++){
+        int val=(a[i]^a[j]);
+        if(op=='+'){
+            arr[val]++;
+        }else {
+            arr[val]--;
+        }
+
+    }
+}
 void solve()
 {
+    int n;
+    cin >> n;
+    vi a(n);
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    memset(arr,0,sizeof(arr));
+    ll cnt = 0;
+    for(int i=1;i<=n-2;i++){
+        fun(i,'+',n,a);
+    }
+    ll ans=0;
+    for(int j=1;j<=n-3;j++){
+        fun(j,'-',n,a);
+        for(int i=0;i<j;i++)
+        {
+            int val=a[i]^a[j];
+            if(val!=0) ans+=arr[val];
+        }
+    }
+
+    cout<<ans*24<<endl;
+    
     
 }
 int32_t main()

@@ -63,16 +63,14 @@ public:
         for (int i = 0; i < n; i++)
         {
             hashVal1[i] = ((s[i] - '0' + 1) * pow1[i]) % mod1;
-            if (i > 0)
-            {
-                hashVal1[i] = (hashVal1[i] + hashVal1[i - 1]) % mod1;
-            }
-
             hashVal2[i] = ((s[i] - '0' + 1) * pow2[i]) % mod2;
             if (i > 0)
             {
+                hashVal1[i] = (hashVal1[i] + hashVal1[i - 1]) % mod1;
                 hashVal2[i] = (hashVal2[i] + hashVal2[i - 1]) % mod2;
             }
+
+    
         }
     }
 

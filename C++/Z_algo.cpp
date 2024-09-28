@@ -1,40 +1,66 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-int Z_funcion(string &text,string &pat){
-    int n=text.size();
-    int m=pat.size();
-    vector<int>Z;
+void z_algo(string &s, string &pat)
+{
+    int n = s.length();
+    int m = pat.length();
+    vector<int> z(n);
+    int l = 0, r = 0;
 
-    string new_string=pat+"#"+text;
-    int len=new_string.length();
-    //put 0 values upto m+1 in Z vector
-    int i=0;
-    while (i < len)
+    for (int i = 1; i < n; i++)
     {
-        if(i<=m)Z.push_back(0);
-        else{
-            int left=0,right=i;
-            while (right < len && new_string[left] == new_string[right])
+        // condition 1
+        if (i > r)
+        {
+            l = i;
+            r = i;
+            while (r < n and s[r - l] == s[r])
             {
-                left++;
-                right++;
+                r++;
             }
-            i=right
-            Z.push_back(left);
+            r--;
+            z[i] = r - l + 1;
         }
-        i++;
-    }
-    for(auto i=0;i<len;i++){
-        if(Z[i]==m){
-            return i-m-1;
+        // condition 2
+        else
+        {
+            int j = i - l;
+            // condition 2a
+            if (z[j] <= r - i + 1)
+            {
+                z[i] = z[j];
+            }
+            // condition 2b
+            else
+            {
+                l = i;
+                while (r < n and s[r - l] == s[r])
+                {
+                    r++;
+                }
+                r--;
+                z[i] = r - l + 1;
+            }
         }
     }
-    return -1;
+    // vector<int> index;
+    // for (int i = 0; i < z.size(); i++)
+    // {
+    //     if(z[i]==m)
+    //         index.push_back(i - z[i] - m + 1);
+    // }
+    // for (auto it : index)
+    // {
+    //     cout << it << " ";
+    // }
 }
-int main(){
-    string s="Rugung";
-    string pat="ugu";
-    cout<<Z_funcion(s,pat)<<endl;
-    
+
+int main()
+{
+    string s = "Rugung";
+    string pat = "ugu";
+    string new_string = pat + "#" + s;
+    z_algo(new_string, pat);
+
     return 0;
 }

@@ -4,114 +4,89 @@ using namespace std;
 #define vi vector<int>
 
 
-bool isVowel(char c)
+void Z_algo(string &s, vector<int> &z)
 {
-    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
-}
-
-long long countOfSubstrings(string word, int k)
-{
-    int n = word.length();
-    long long result = 0;
-    map<int, int> consonant;
-    int c = 0;
-    for (int i = 0; i < n; i++)
+    int n = s.length();
+    int l = 0, r = 0;
+    for (int i = 1; i < n; i++)
     {
-        if (!isVowel(word[i]))
+        if (i > r)
         {
-            c++;
-            consonant[c] = i;
-        }
-    }
-    // for (auto it : consonant)
-    // {
-    //     cout << it.first << "->" << it.second << endl;
-    // }
-    // cout << endl;
-    vector<int> index(n, -1);
-    map<char, int> mp;
-    int j = n - 1;
-
-    for (int i = n - 1; i >= 0; i--)
-    {
-        if (isVowel(word[i]))
-        {
-            mp[word[i]]++;
-        }
-        while (mp.size() == 5)
-        {
-            index[j] = i;
-            if (isVowel(word[j]))
+            l = i, r = i;
+            bool not_match = false;
+            while (r < n)
             {
-                mp[word[j]]--;
-                if (mp[word[j]] == 0)
+
+                if (s[r - l] != s[r])
                 {
-                    mp.erase(word[j]);
+                    if (not_match)
+                        break;
+                    not_match = true;
                 }
+                r++;
             }
-            j--;
+            r--;
+            z[i] = r - l + 1;
+        }
+        else
+        {
+            int j = i - l;
+            if (z[j] < (r - i + 1))
+            {
+                z[i] = z[j];
+            }
+            else
+            {
+                l = i;
+                bool not_match = false;
+                while (r < n)
+                {
+
+                    if (s[r - l] != s[r])
+                    {
+                        if (not_match)
+                            break;
+                        not_match = true;
+                    }
+                    r++;
+                }
+                r--;
+                z[i] = r - l + 1;
+            }
         }
     }
-    for (auto it : index)
+    for (auto it : z)
     {
         cout << it << " ";
     }
     cout << endl;
-    int i = 0;
-    j = 0;
-    map<char, int> m;
-    int conso = 0;
-    int id = 0;
-    while (j < n)
-    {
-        if (isVowel(word[j]))
-        {
-            m[word[j]]++;
-        }
-        else
-        {
-            conso++;
-        }
-
-        if (m.size() == 5 && conso == k)
-        {
-            if (index[j] != -1)
-            {
-                int idx = min(index[j], consonant[id]);
-                result += (idx - i + 1);
-                id++;
-            }
-        }
-
-        while (conso > k)
-        {
-            if (isVowel(word[i]))
-            {
-                m[word[i]]--;
-                if (m[word[i]] == 0)
-                {
-                    m.erase(word[i]);
-                }
-            }
-            else
-            {
-                conso--;
-            }
-            i++;
-        }
-
-        j++;
-    }
-
-    return result;
 }
-
-
+int minStartingIndex(string s, string pattern)
+{
+    int m = pattern.length();
+    string new_string = pattern + "#" + s;
+    // cout << new_string << endl;
+    int n = new_string.length();
+    vector<int> z(n);
+    Z_algo(new_string, z);
+    for (int i = m + 1; i < n; i++)
+    {
+        if (z[i] == m)
+            return (i - (m + 1));
+    }
+    return -1;
+}
 int main()
 {
-    string s = "iqeaouqi";
-    int k = 2;
-    cout << countOfSubstrings(s, k) << endl;
+   
+
+    // string s = "abcdefg";
+    // string pattern = "bcdffg";
+    // cout << minStartingIndex(s, pattern) << endl;
 
     return 0;
 }
+
+
+
+

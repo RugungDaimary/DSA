@@ -57,59 +57,41 @@ void mergeSort(int*arr,int s,int e){
 }
 
 //Quick Sort
-int partition(int arr[], int s, int e) {
-  //step1: chooose pivotelement
-  int pivotIndex = s;
-  int pivotElement = arr[s];
+int partion(int low, int high, vector<int> &nums)
+{
 
-  //step2: find right position for pivot Element and place it there
-  int count = 0;
-  for(int i=s+1; i<=e; i++) {
-    if(arr[i] <= pivotElement) {
-      count++;
-    }
-  }
-  //jab main loop se bahar hua, toh mere paas pivot ki right position ka index ready h 
-  int rightIndex = s + count;
-  swap(arr[pivotIndex], arr[rightIndex]);
-  pivotIndex = rightIndex;
-
-  //Step3: left me chote and right me bade
-  int i = s;
-  int j = e;
-
-  while( i < pivotIndex && j > pivotIndex) {
-    while(arr[i] <= pivotElement) {
+  int pivot = nums[low];
+  int i = low + 1;
+  int j = high;
+  while (i <= j)
+  {
+    while (i <= j && nums[i] <= pivot)
+    {
       i++;
     }
-    while( arr[j] > pivotElement){
+    while (i <= j && nums[j] >= pivot)
+    {
       j--;
     }
-
-    //2 case ho sakte h -> 
-    //A-> you found the elements to swap
-    //B-> no need to swap
-    if(i < pivotIndex && j > pivotIndex)
-      swap(arr[i],arr[j]);
+    if (i < j)
+    {
+      swap(nums[i], nums[j]);
+      i++;
+      j--;
+    }
   }
-  return pivotIndex;
+  swap(nums[low], nums[j]);
+  return j;
 }
+void quickSort(int low, int high, vector<int> &nums)
+{
 
-void quickSort(int arr[], int s, int e) {
-  //base case
-  if(s >= e)
-    return ;
-
-  //partition logic, return pivotIndex
-  int p = partition(arr, s, e);
-
-  //recursive calls
-  //pivot element -> left
-  quickSort(arr, s, p-1);
-
-  //pivot element -> right
-  quickSort(arr, p+1, e);
-
+  if (low < high)
+  {
+    int pIndex = partion(low, high, nums);
+    quickSort(low, pIndex - 1, nums);
+    quickSort(pIndex + 1, high, nums);
+  }
 }
 
 //permutations of string

@@ -200,7 +200,7 @@ int main(){
 //     return 0;
 // }
 
-
+/*
 
 #include<iostream>
 using namespace std;
@@ -233,6 +233,51 @@ int main(){
     v2->print();
     v1->print();
     c.print();
+
+    return 0;
+}
+
+*/
+
+//Singleton class
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Singleton
+{
+private:
+    // Private constructor so no one can create objects directly
+    Singleton()
+    {
+        cout << "Singleton instance created" << endl;
+    }
+
+    // This holds the one and only instance
+    static Singleton *instance;
+
+public:
+    // Static method to get the single instance
+    static Singleton *getInstance()
+    {
+        if (instance == nullptr)
+        {
+            instance = new Singleton(); // Create it if it doesn't exist yet
+        }
+        return instance; // Always return the same instance
+    }
+};
+
+// Initialize the static instance pointer to nullptr (no object created yet)
+Singleton *Singleton::instance = nullptr;
+
+int main()
+{
+    // Get the Singleton instance
+    Singleton *obj1 = Singleton::getInstance();
+
+    // Trying to get another instance will give the same one
+    Singleton *obj2 = Singleton::getInstance();
 
     return 0;
 }

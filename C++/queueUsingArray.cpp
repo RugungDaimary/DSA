@@ -101,12 +101,12 @@
      int size;
      int capacity;//hold the size of array ,input taken by user
      public:
-     Queue(int s){
-         data=new T[s];
+     Queue(){
+         data=new T[4];
          nextIndex=0;
          firstIndex=-1;
          size=0;
-         capacity=s;//capacity is created here to use the size of array globally
+         capacity=4;//capacity is created here to use the size of array globally
      }
      int getSize(){
          return size;
@@ -177,7 +177,7 @@
 
 };
 int main(){
-    Queue<int> q(5);
+    Queue<int> q;
     q.enqueue(10);
     q.enqueue(20);
     q.enqueue(30);

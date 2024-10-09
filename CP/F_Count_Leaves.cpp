@@ -10,10 +10,7 @@ using namespace __gnu_pbds;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // strictly increasing                                                                                            //  greater<int> //for decreasing
 //                      (less_equal<int>)=> for increasing(multi_set)
 // =>find_by_order(value at index k), order_of_key(no of elments smaller than(k))
-#define fastio()                      \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL)
+#define fastio() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
 #define MOD 1000000007
 #define INF 1e18
 #define nline '\n'
@@ -33,17 +30,8 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 /*--------------------------------------------------------------------------------------------------------------------------*/
 int hcf(int a, int b) { return (b == 0 ? a : hcf(b, a % b)); }
 int lcm(int x, int y) { return (x * y) / hcf(x, y); }
-int gcd(int a, int b)
-{
-    while (b != 0)
-    {
-        int temp = b;
-        b = a % b;
-        a = temp;
-    }
-    return a;
-}
-long long expo(long long a, long long b, long long mod = MOD)
+int gcd(int a, int b){while (b != 0){int temp = b;b = a % b;a = temp;}return a;}
+long long expo(long long a, long long b, long long mod=MOD)
 {
     a = a % mod;
     if (b == 0)
@@ -51,13 +39,13 @@ long long expo(long long a, long long b, long long mod = MOD)
         return 1;
     }
     long long half = expo(a, b / 2, mod);
-    if (b & 1)
+    if (b&1)
     {
-        return (a % mod * half % mod * half % mod) % mod;
+        return (a%mod * half%mod *half%mod) % mod;
     }
     else
     {
-        return (half % mod * half % mod) % mod;
+        return (half%mod * half%mod) % mod;
     }
 }
 struct Hashing
@@ -188,59 +176,13 @@ struct cmp // (all the logic  here will be reverse for Priority Queue)
         {
             return a.second > b.second; // Sort in decreasing order  by second parameter
         }
-        return a.first < b.first; // sort in increasing order by first parameter
+        return a.first < b.first; //sort in increasing order by first parameter
     }
 };
 /*--------------------------------------------------------------------------------------------------------------------------*/
 void solve()
 {
-    ll n,k;
-    cin>>n>>k;
-    vector<ll> a(n);
-    ll maxi=0;
-    ll tot=0;
-    for(int i=0;i<n;i++)
-    {
-        cin>>a[i];
-        maxi=max(maxi,a[i]);
-        tot+=a[i];
-    }
-    ll extendTill= n*maxi-tot;
-    ll mx=1;
-    // ll low=0;
-    // ll high=1e10;
-    // while(low<=high)
-
-    ll ans=0;
-    for(int i=0;i<=0;i++)
-    {
-        // ll i=(hi+lo)/2;
-        ll newmaxi=maxi+i;
-        ll newExt = extendTill+n*(i);
-        ll lo=tot;
-        ll hi=min(n*newmaxi,tot+k);
-        ll div=hi/newmaxi;
-        if(div*newmaxi>=tot) {
-            mx = max(mx, div);
-            // ans=div;
-        }
-        // else break;
-        
-    }
-    // ll lo=1;
-    // ll hi=1e9;
-    // while(lo<=hi)
-    // {
-    //     ll mid=(lo+hi)/2;
-    //     ll gen = mid*maxi;
-    //     if(gen>tot+k) hi=mid-1;
-    //     else{
-    //         mx=max(mx,gen);
-    //         lo=mid+1;
-    //     }
-    // }
-    // cout<<mx<<endl;
-    cout<<mx<<endl;
+    cout<<"H";
 }
 int32_t main()
 {

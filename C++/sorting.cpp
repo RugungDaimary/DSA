@@ -1,58 +1,64 @@
-
-
 #include <bits/stdc++.h>
 using namespace std;
-//  INSERTION SORT
-void insertionSort(int arr[], int n)
+
+// SELECTION SORT(in each iteration ith minimum element is placed at it's right place)
+void selectionSort(vector<int> &nums)
 {
-    for (int i = 1; i < n; i++)
+    int n = nums.size();
+    for (int i = 0; i < n-1; i++)
     {
-        int key = arr[i];
-        int j = i - 1;
-        // Move elements of arr[0..i-1], that are greater than key,
-        // to one position ahead of their current position
-        while (j >= 0 && arr[j] > key)
+        int mini = nums[i];
+        int idx = i;
+        for (int j = i; j < n; j++)
         {
-            arr[j + 1] = arr[j];
-            j = j - 1;
-        }
-        arr[j + 1] = key;
-    }
-}
-// SELECTION SORT
-void selectionSort(int arr[], int size)
-{
-    for (int i = 0; i < size - 1; i++) // i represents the current round//for rounds
-    {
-        // find minimum element in the array
-        int min = arr[i]; // assuming the first element as minimum
-        int minIndex = i; // initialized with first index,index of min element
-        for (int j = i + 1; j < size; j++)
-        {
-            if (arr[j] < min)
+            if (nums[j] < mini)
             {
-                min = arr[j];
-                minIndex = j;
+                mini = nums[j];
+                idx = j;
             }
         }
-        swap(arr[i], arr[minIndex]);
+        swap(nums[i], nums[idx]);
     }
-}
-//BUBBLE SORT
-void bubbleSort(int *arr,int n){
-    for (int j = 0; j <n-1; j++)
+    for (auto it : nums)
     {
-        for (int i = 0; i < n - 1-i; i++)
-        {
-            if (arr[i] > arr[i + 1])
-            {
-                swap(arr[i], arr[i + 1]);
-            }
-        }
+        cout << it << " ";
     }
-    
 }
 
+//BUBBLE SORT(in each iteration ith largest element is placed in it's right place(opposite to selection sort))
+void bubbleSort(vector<int>&nums) {
+    
+    int n=nums.size();
+    int idx=n-1;
+    while(idx>0){
+        for(int j=0;j<idx;j++){
+            if(nums[j]>nums[j+1]){
+                swap(nums[j],nums[j+1]);
+            }
+        }
+        idx--;
+    }
+    for(auto it:nums){
+        cout<<it<<" ";
+    }
+}
+
+//  INSERTION SORT(here for index i [0,i-1] array has sorted and i want to insert the current element in it's right position )
+void insertionSort(vector<int>&nums)
+{
+    int n=nums.size();
+    for(int i=0;i<n;i++){
+        int idx=i;
+        while(idx>0 && nums[idx-1]>nums[idx]){
+            swap(nums[idx-1],nums[idx]);
+            idx--;
+        }
+    }
+    for (auto it : nums)
+    {
+        cout << it << " ";
+    }
+}
 // count sort
 
 // TC=>O(n+k)
@@ -71,11 +77,6 @@ void countSort(vector<int> &arr)
     {
         count[arr[i]]++;
     }
-    for (int i = 0; i < count.size(); i++)
-    {
-        cout << count[i] << " ";
-    }
-    cout << endl;
     arr.resize(0);
     // we will change in original array only
     for (int i = 0; i < count.size(); i++)
@@ -95,18 +96,18 @@ void countSort(vector<int> &arr)
     cout << endl;
 }
 int main(){
-    int arr[]={10,12,1,8,2,5};
-    for (int i = 0; i < 6; i++)
+    vector<int>nums={5,3,2,1,0,9};
+    cout<<"Before: ";
+    for (auto it : nums)
     {
-        cout << arr[i] << " ";
-    }
-     cout << endl;
-    bubbleSort(arr,6);
-    for (int i = 0; i < 6; i++)
-    {
-        cout<<arr[i]<<" ";
-
+        cout << it << " ";
     }
     cout<<endl;
+    // bubbleSort(nums);
+    cout<<"After : ";
+    // selectionSort(nums);
+    // countSort(nums);
+    insertionSort(nums);
+
     return 0;
 }

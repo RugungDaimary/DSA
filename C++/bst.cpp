@@ -1,22 +1,21 @@
-
 #include <iostream>
 #include <queue>
 #include<limits.h>
 using namespace std;
 template <typename T>
-class BinaryTreeNode
+class TreeNode
 {
 public:
     T data;
-    BinaryTreeNode *left;
-    BinaryTreeNode *right;
-    BinaryTreeNode(T data)
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(T data)
     {
         this->data = data;
         left = right = NULL;
     }
 };
-BinaryTreeNode<int> *takeInputLevelWise()
+TreeNode<int> *takeInputLevelWise()
 {
     int rootData;
     cout << "Enter root Data\n";
@@ -25,36 +24,36 @@ BinaryTreeNode<int> *takeInputLevelWise()
     {
         return NULL;
     }
-    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(rootData);
-    queue<BinaryTreeNode<int> *> pendingNodes;
-    pendingNodes.push(root);
-    while (pendingNodes.size() != 0)
+    TreeNode<int> *root = new TreeNode<int>(rootData);
+    queue<TreeNode<int> *> q;
+    q.push(root);
+    while (q.size() != 0)
     {
-        BinaryTreeNode<int> *front = pendingNodes.front();
-        pendingNodes.pop();
+        TreeNode<int> *front = q.front();
+        q.pop();
         cout << "Enter left child of " << front->data << endl;
         int leftChildData;
         cin >> leftChildData;
         if (leftChildData != -1)
         {
-            BinaryTreeNode<int> *child = new BinaryTreeNode<int>(leftChildData);
+            TreeNode<int> *child = new TreeNode<int>(leftChildData);
             front->left = child;
-            pendingNodes.push(child);
+            q.push(child);
         }
         cout << "Enter right child of " << front->data << endl;
         int rightChildData;
         cin >> rightChildData;
         if (rightChildData != -1)
         {
-            BinaryTreeNode<int> *child = new BinaryTreeNode<int>(rightChildData);
+            TreeNode<int> *child = new TreeNode<int>(rightChildData);
             front->right = child;
-            pendingNodes.push(child);
+            q.push(child);
         }
     }
     return root;
 }
 
-void printTree(BinaryTreeNode<int> *root)
+void printTree(TreeNode<int> *root)
 {
     if (root == NULL)
     {
@@ -74,61 +73,35 @@ void printTree(BinaryTreeNode<int> *root)
     printTree(root->left);
     printTree(root->right);
 }
-//Search x in BST( some changes need to be done)
-/*
-pair<BinaryTreeNode<int>*,bool> search(BinaryTreeNode<int>* root,int key){
-    pair<BinaryTreeNode<int>*,bool> ans;//first= node, second=isPresent
-
-    if (root==NULL )
+pair<TreeNode *, bool> search_helper(TreeNode *node, int data)
+{
+    if (node == NULL)
     {
-        ans.first=NULL;
-        ans.second=false;
-        return ans;
+        return {NULL, false};
     }
-    if(root->data==key){
-        ans.first=root;
-        ans.second=true;
-        return ans;
-    }
-    if (key > root->data)
+    if (node->data == data)
     {
-        ans= search(root->right, key);
+        return {node, true};
+    }
+    else if (data < node->data)
+    {
+        return search_helper(node->left, data);
     }
     else
     {
-        ans= search(root->left, key);
+        return search_helper(node->right, data);
     }
-    return ans;
 }
-bool isPresent(BinaryTreeNode<int>* root,int key){
-    pair<BinaryTreeNode<int>*,bool> ans=search(root,key);
-    return ans.second;
-
-}
-
-
-//or method
-bool helper(int data,BinaryTreeNode<int>* node){//this function is not related to above roots and class,
-    if(node==NULL){                                //it just finds a data in it's tree provided root
-        return false;
-    }
-    if(node->data==data){
+bool search(TreeNode *root, int data)
+{
+    pair<TreeNode *, bool> ans = search_helper(root, data);
+    if (ans.second)
         return true;
-    }else if(data<node->data){
-        return helper(data,node->left);
-    }
-    else{
-        return helper(data,node->right);
-    }
+    return false;
 }
-
-bool hasData(int data){
-    return helper(data,root);
-}
-*/
 
 // Print Element in range
-void printRange(BinaryTreeNode<int> *root, int k1, int k2)
+void printRange(TreeNode<int> *root, int k1, int k2)
 {   //k1=min,k2=max
     if (root == NULL)
     {
@@ -147,7 +120,7 @@ void printRange(BinaryTreeNode<int> *root, int k1, int k2)
         printRange(root->right, k1, k2); // go to the right subtree
     }
 }
-void printRangeBetween(BinaryTreeNode<int> *root, int k1, int k2)
+void printRangeBetween(TreeNode<int> *root, int k1, int k2)
 {
     if (root == NULL)
     {
@@ -172,85 +145,70 @@ void printRangeBetween(BinaryTreeNode<int> *root, int k1, int k2)
 
 //check BST or not
 //here time complexity is O(n*h);
-/*
-int maximum(BinaryTreeNode<int>* root){
-    if(root==NULL){
+int findMaximum(TreeNode *node)
+{
+    if (node == NULL)
         return INT_MIN;
+    while (node->right != NULL)
+    {
+        node = node->right;
     }
-    int leftAns=maximum(root->left);
-    int rightAns=maximum(root->right);
-    return max(root->data,max(leftAns,rightAns));
-
+    return node->val;
 }
-int minimum(BinaryTreeNode<int>* root){
-    if(root==NULL){
+
+int findMinimum(TreeNode *node)
+{
+    if (node == NULL)
         return INT_MAX;
+    while (node->left != NULL)
+    {
+        node = node->left;
     }
-    int leftMin=minimum(root->left);
-    int rightMin=minimum(root->right);
-    return min(root->data,min(leftMin,rightMin));
-
+    return node->val;
 }
-bool isBST(BinaryTreeNode<int>* root){
-    if(root==NULL){
+
+bool isValidBST(TreeNode *root)
+{
+    if (root == NULL)
         return true;
-    }
-    int leftMax=maximum(root->left);
-    int rightMin=minimum(root->right);
-    // if(root->data>leftMax && root->data<=rightMin && isBST(root->left) && isBST(root->right)){
-    //     return true;
-    // }
-    // return false;
-    bool output = (root->data > leftMax) && (root->data <= rightMin) && isBST(root->left) && isBST(root->right);
-    return output;
-}
-*/
-
-// another approach using class
-//  pair<pair<int,int>,bool> isBST(BinaryTreeNode<int>* root){
-//  }
-// class isBSTReturn{
-//     public:
-//     int minimum;
-//     int maximum;
-//     bool isBST;
-
-// };
-// isBSTReturn isBST(BinaryTreeNode<int>* root){
-//     isBSTReturn ans;
-//     if(root==NULL){
-//         ans.isBST=true;
-//         ans.maximum=INT_MIN;
-//         ans.minimum=INT_MAX;
-//         return ans;
-//     }
-//     isBSTReturn leftAns=isBST(root->left);
-//     isBSTReturn rightAns=isBST(root->right);
-//     int Min=min(root->data,min(leftAns.minimum,rightAns.minimum));
-//     int Max=max(root->data,max(leftAns.maximum,rightAns.maximum));
-
-//     bool isBSTFinal = (root->data > leftAns.maximum) && (root->data < rightAns.minimum) && leftAns.isBST && rightAns.isBST;
-//     ans.maximum = Max;
-//     ans.minimum = Min;
-//     ans.isBST = isBSTFinal;
-//     return ans;
-// }
-//third appraoch for checking is a BST or not
-bool isBST( BinaryTreeNode<int>* root,int min=INT_MIN,int max=INT_MAX){
-    if (root==NULL){
-        return true;
-    }
-    if(root->data<min || root->data> max){
+    if (root->left != NULL && findMaximum(root->left) >= root->val)
         return false;
+    if (root->right != NULL && findMinimum(root->right) <= root->val)
+        return false;
+    return isValidBST(root->left) && isValidBST(root->right);
+}
+
+// another approach using class (O(n)time)
+class isBSTReturn {
+public:
+    int minimum;
+    int maximum;
+    bool isBST;
+};
+
+isBSTReturn isBST(TreeNode<int>* root) {
+    isBSTReturn ans;
+    if (root == NULL) {
+        ans.isBST = true;
+        ans.maximum = INT_MIN;
+        ans.minimum = INT_MAX;
+        return ans;
     }
-    bool isLeftOk= isBST(root->left,min,root->data-1);
-    bool isRightOk=isBST(root->right,root->data,max);
-    return isLeftOk && isRightOk;
+    isBSTReturn leftAns = isBST(root->left);
+    isBSTReturn rightAns = isBST(root->right);
+
+    bool isBSTFinal = (root->data > leftAns.maximum) && (root->data < rightAns.minimum) && leftAns.isBST && rightAns.isBST;
+    int Min = min(root->data, min(leftAns.minimum, rightAns.minimum));
+    int Max = max(root->data, max(leftAns.maximum, rightAns.maximum));
+    ans.maximum = Max;
+    ans.minimum = Min;
+    ans.isBST = isBSTFinal;
+    return ans;
 }
 
 //Construct BST form sorted array
-/*
-BinaryTreeNode *HELPER(vector<int> &nums, int s, int e)
+
+TreeNode *HELPER(vector<int> &nums, int s, int e)
 {
 
     int mid = s + (e - s) / 2;
@@ -266,13 +224,13 @@ BinaryTreeNode *HELPER(vector<int> &nums, int s, int e)
     return root;
 }
 
-BinaryTreeNode *sortedArrayToBST(vector<int> &nums)
+TreeNode *sortedArrayToBST(vector<int> &nums)
 {
     int n = nums.size();
     return HELPER(nums, 0, n - 1);
 }
 
-*/
+
 //BST to sorted LL
 template <typename T>
 class Node
@@ -286,7 +244,7 @@ public:
         this->next = NULL;
     }
 };
-// Node<int>* BSTtoLL(BinaryTreeNode<int>* root){
+// Node<int>* BSTtoLL(TreeNode<int>* root){
 //     if(root==NULL){
 //         return NULL;
 //     }
@@ -316,7 +274,7 @@ public:
 // }
 
 //another approach
-pair<Node<int>*, Node<int>* > BSTtoLL(BinaryTreeNode<int> *root){
+pair<Node<int>*, Node<int>*> BSTtoLL(TreeNode<int> *root){
     //first=head;
     // second=tail;
     pair<Node<int>*,Node<int>*> Output;
@@ -356,7 +314,7 @@ pair<Node<int>*, Node<int>* > BSTtoLL(BinaryTreeNode<int> *root){
 }
 
 // Find path in BinaryTree
-vector<int>* getRootToNodePath(BinaryTreeNode<int>* root,int k){
+vector<int>* getRootToNodePath(TreeNode<int>* root,int k){
     
     if(root==NULL){
         return NULL;
@@ -388,7 +346,7 @@ vector<int>* getRootToNodePath(BinaryTreeNode<int>* root,int k){
 int main()
 {
 
-    BinaryTreeNode<int> *root = takeInputLevelWise();
+    TreeNode<int> *root = takeInputLevelWise();
     printTree(root);
    
     // if(isPresent(root,6)){

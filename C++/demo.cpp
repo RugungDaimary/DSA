@@ -147,33 +147,35 @@ public:
 
 
 
-// #include <bits/stdc++.h>
-// #include <list>
+#include <bits/stdc++.h>
+#include <list>
 
-// using namespace std;
+using namespace std;
 
-// int main()
-// {
-//     list<int> dll;
-//     map<int, list<int>::iterator> mp;
-//     dll.push_front(1);
-//     mp[1] = dll.begin();
-//     dll.push_front(2);
-//     mp[2] = dll.begin();
-//     dll.push_front(3);
-//     mp[3] = dll.begin();
-//     dll.push_front(4);
-//     mp[4] = dll.begin();
+int main()
+{
+    list<int> dll;
+    map<int, list<int>::iterator> mp;
+    dll.push_front(1);
+    mp[1] = dll.begin();
+    dll.push_front(2);
+    mp[2] = dll.begin();
+    dll.push_front(3);
+    mp[3] = dll.begin();
+    dll.push_front(4);
+    mp[4] = dll.begin();
 
-//     for (auto val : dll) {
-//         cout << val << " ";
-//     }
-//     cout<<endl;
-//     dll.erase(mp[2]);
-//     for (auto val : dll)
-//     {
-//         cout << val << " ";
-//     }
+    for (auto val : dll) {
+        cout << val << " ";
+    }
+    cout<<endl;
+    dll.erase(mp[2]);
+    for (auto val : dll)
+    {
+        cout << val << " ";
+    }
 
-//     return 0;
-// }
+    return 0;
+}
+
+

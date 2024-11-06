@@ -1,15 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-// SELECTION SORT(in each iteration ith minimum element is placed at it's right place)
+void bubbleSort(vector<int> &nums)
+{
+    int n = nums.size();
+    int idx = n - 1;
+    while (idx > 0)
+    {
+        for (int i = 0; i < idx; i++)
+        {
+            if (nums[i] > nums[i + 1])
+            {
+                swap(nums[i], nums[i + 1]);
+            }
+        }
+        idx--;
+    }
+}
 void selectionSort(vector<int> &nums)
 {
     int n = nums.size();
-    for (int i = 0; i < n-1; i++)
+    for (int i = 0; i < n; i++)
     {
         int mini = nums[i];
         int idx = i;
-        for (int j = i; j < n; j++)
+        for (int j = i + 1; j < n; j++)
         {
             if (nums[j] < mini)
             {
@@ -19,95 +33,112 @@ void selectionSort(vector<int> &nums)
         }
         swap(nums[i], nums[idx]);
     }
-    for (auto it : nums)
-    {
-        cout << it << " ";
-    }
 }
-
-//BUBBLE SORT(in each iteration ith largest element is placed in it's right place(opposite to selection sort))
-void bubbleSort(vector<int>&nums) {
-    
-    int n=nums.size();
-    int idx=n-1;
-    while(idx>0){
-        for(int j=0;j<idx;j++){
-            if(nums[j]>nums[j+1]){
-                swap(nums[j],nums[j+1]);
-            }
-        }
-        idx--;
-    }
-    for(auto it:nums){
-        cout<<it<<" ";
-    }
-}
-
-//  INSERTION SORT(here for index i [0,i-1] array has sorted and i want to insert the current element in it's right position )
-void insertionSort(vector<int>&nums)
+void insertionSort(vector<int> &nums)
 {
-    int n=nums.size();
-    for(int i=0;i<n;i++){
-        int idx=i;
-        while(idx>0 && nums[idx-1]>nums[idx]){
-            swap(nums[idx-1],nums[idx]);
+    int n = nums.size();
+    for (int i = 0; i < n; i++)
+    {
+        int idx = i;
+        while (idx > 0 && nums[idx - 1] > nums[idx])
+        {
+            swap(nums[idx], nums[idx - 1]);
             idx--;
         }
     }
-    for (auto it : nums)
-    {
-        cout << it << " ";
-    }
 }
-// count sort
-
-// TC=>O(n+k)
-// SC=>O(k)
-// Non comparison algorithm
-// this algorithm is not inPlace algorithm(uses extra space of k size,where k is the maximum element)
-// all elements should be +ve only
-
-void countSort(vector<int> &arr)
+long long merge(int low, int mid, int high, vector<int> &nums)
 {
-    int n = arr.size();
-    // intially we make count array which will store the frequency of all elements
-    int maxi = *max_element(arr.begin(), arr.end());
-    vector<int> count(maxi + 1, 0); // means all numbers will be in range up to max element only
-    for (int i = 0; i < n; i++)
+
+    int i = low;
+    int j = mid + 1;
+    vector<int> sorted;
+    long long cnt = 0;
+    while (i <= mid && j <= high)
     {
-        count[arr[i]]++;
-    }
-    arr.resize(0);
-    // we will change in original array only
-    for (int i = 0; i < count.size(); i++)
-    {
-        if (count[i] > 0)
+        if (nums[i] <= nums[j])
         {
-            for (int j = 0; j < count[i]; j++)
-            {
-                arr.push_back(i);
-            }
+            sorted.push_back(nums[i]);
+            i++;
+        }
+        else
+        {
+            cnt += (mid - i + 1);
+            sorted.push_back(nums[j]);
+            j++;
         }
     }
-    for (int i = 0; i < n; i++)
+    while (i <= mid)
     {
-        cout << arr[i] << " ";
+        sorted.push_back(nums[i]);
+        i++;
     }
-    cout << endl;
+    while (j <= high)
+    {
+        sorted.push_back(nums[j]);
+        j++;
+    }
+    int idx = 0;
+    for (int k = low; k <= high; k++)
+    {
+        nums[k] = sorted[idx];
+        idx++;
+    }
+    return cnt;
 }
-int main(){
-    vector<int>nums={5,3,2,1,0,9};
-    cout<<"Before: ";
-    for (auto it : nums)
+long long mergeSort(int low, int high, vector<int> &nums)
+{
+    if (low == high)
+        return 0;
+    int mid = (low + high) / 2;
+    long long left = mergeSort(low, mid, nums);
+    long long right = mergeSort(mid + 1, high, nums);
+    return left + right + merge(low, mid, high, nums);
+}
+int partition(int low, int high, vector<int> &nums)
+{
+    int i = low;
+    int j = high;
+    int pivot = nums[low];
+    while (i <= j)
     {
-        cout << it << " ";
+        while (i <= j && nums[i] <= pivot)
+        {
+            i++;
+        }
+        while (i <= j && nums[j] > pivot)
+        {
+            j--;
+        }
+        if (i < j)
+        {
+
+            swap(nums[i], nums[j]);
+            i++;
+            j--;
+        }
     }
-    cout<<endl;
-    // bubbleSort(nums);
-    cout<<"After : ";
-    // selectionSort(nums);
-    // countSort(nums);
-    insertionSort(nums);
+    swap(nums[low], nums[j]);
+    return j;
+}
+
+void quickSort(int low, int high, vector<int> &nums)
+{
+    if (low < high)
+    {
+        int pIdx = partition(low, high, nums);
+        quickSort(low, pIdx - 1, nums);
+        quickSort(pIdx + 1, high, nums);
+    }
+}
+int main()
+{
+    // vector<int>nums={2,4,1,3,5};
+    // // cout<<mergeSort(0,nums.size()-1,nums)<<endl;
+    // quickSort(0,nums.size()-1,nums);
+    // for(auto it:nums){
+    //     cout<<it<<" ";
+    // }
 
     return 0;
 }

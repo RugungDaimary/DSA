@@ -1,3 +1,4 @@
+/*
 #include <bits/stdc++.h>
 using namespace std;
 template <typename T>
@@ -144,9 +145,11 @@ public:
 };
 
 
+*/
 
 
 
+/*
 #include <bits/stdc++.h>
 #include <list>
 
@@ -178,4 +181,38 @@ int main()
     return 0;
 }
 
+*/
+#include<bits/stdc++.h>
+using namespace std;
+int maxFrequency(vector<int> &nums, int k, int numOperations)
+{
+    int n=nums.size();
+    sort(nums.begin(), nums.end());
+    map<int, int> mp;
+    for (int i = 0; i < n; i++)
+    {
+        mp[nums[i]]++;
+    }
+    int maxFq = 0;
+    for (int i = 0; i < n; i++)
+    {
 
+        auto left = upper_bound(nums.begin(), nums.begin() + i, nums[i] - k - 1) - nums.begin();
+        auto right = (upper_bound(nums.begin() + i , nums.end(), nums[i] + k) - nums.begin()) - 1;
+        if(left==i){
+            left--;
+        }
+        int fq=right-left-mp[nums[i]];
+        int val = min(numOperations, fq)+mp[nums[i]];
+        maxFq=max(maxFq,val);
+    }
+    return maxFq;
+}
+int main(){
+    vector<int> nums = {5, 11, 20, 20};
+    int k=5;
+    int op=1;
+    cout<<maxFrequency(nums,k,op)<<endl;
+    
+    return 0;
+}

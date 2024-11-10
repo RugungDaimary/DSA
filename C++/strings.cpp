@@ -1,66 +1,58 @@
-//////strings-->1D char array
-//#include<iostream>
-//using namespace std;
-//int length(char arr[ ]){//no need to pass size of string array
-//    int count=1;
-//    for (int i=1; arr[i]!='\0'; i++) {
-//        count++;
-//    }
-//    return count;
-//
-//
-//}
-//int main(){
-//
-////    char name[200];
-////    cin>>name;
-////    cout<<name<<endl;
-//
-//    //finding length of string
-//    char name[200];
-//    cin>>name;
-//    int ans=length(name);
-//    cout<<ans<<endl;
-//
-//
-//    return 0;
-//}
+//strings-->1D char array
+#include<iostream>
+using namespace std;
+int length(char arr[ ]){//no need to pass size of string array
+   int count=1;
+   for (int i=1; arr[i]!='\0'; i++) {
+       count++;
+   }
+   return count;
 
 
-//Qn) reverse a string
-//#include<iostream>
-//using namespace std;
-//int getLength(char name[],int n){
-//    int count=1;
-//    for (int i=1; name[i]!='\0'; i++) {
-//         count++;
-//    }
-//         return count;
-//}
-//void reverse(char name[ ],int n){
-//    int s=0;
-//    int e=n-1;
-//    while (s<e) {
-//        swap(name[s], name[e]);//yato is line pe 'swap(name[s++],name[e--])' karo
-//        s++;
-//        e--;
-//    }
-//
-//}
-//
-//int main(){
-//    char name[100];
-//    cout<<"Enter your name\n";
-//    cin>>name;
-//    cout<<"Your name is "<<name<<endl;
-//    int len=getLength(name,100);
-//    cout<<"Lenght is "<<len<<endl;
-//    reverse(name, len);//len must be equal to the length of string,otherwise return a wrong answer
-//    cout<<name<<endl;
-//
-//
-//    return 0;
-//}
+}
+// Qn) reverse a string
+int getLength(char name[],int n){
+    int count=1;
+    for (int i=1; name[i]!='\0'; i++) {
+         count++;
+    }
+         return count;
+}
+void reverse(char name[ ],int n){
+    int s=0;
+    int e=n-1;
+    while (s<e) {
+        swap(name[s], name[e]);//yato is line pe 'swap(name[s++],name[e--])' karo
+        s++;
+        e--;
+    }
+
+}
+int main(){
+
+    //    char name[200];
+    //    cin>>name;
+    //    cout<<name<<endl;
+
+   //finding length of string
+   char name[200];
+   cin>>name;
+   int ans=length(name);
+   cout<<ans<<endl;
+
+
+   //    char name[100];
+   //    cout<<"Enter your name\n";
+   //    cin>>name;
+   //    cout<<"Your name is "<<name<<endl;
+   //    int len=getLength(name,100);
+   //    cout<<"Lenght is "<<len<<endl;
+   //    reverse(name, len);//len must be equal to the length of string,otherwise return a wrong answer
+   //    cout<<name<<endl;
+
+   return 0;
+}
+
 
 
 

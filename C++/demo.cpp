@@ -158,6 +158,7 @@ using namespace std;
 int main()
 {
     list<int> dll;
+
     map<int, list<int>::iterator> mp;
     dll.push_front(1);
     mp[1] = dll.begin();
@@ -182,37 +183,50 @@ int main()
 }
 
 */
+
+
 #include<bits/stdc++.h>
 using namespace std;
-int maxFrequency(vector<int> &nums, int k, int numOperations)
+class Base_class
 {
-    int n=nums.size();
-    sort(nums.begin(), nums.end());
-    map<int, int> mp;
-    for (int i = 0; i < n; i++)
+public:
+    virtual void  show()
     {
-        mp[nums[i]]++;
+        cout << "Apni Kaksha base" << endl;
     }
-    int maxFq = 0;
-    for (int i = 0; i < n; i++)
+};
+class Derived_class : public Base_class
+{
+public:
+    void show()
     {
+        cout << "Apni Kaksha derived" << endl;
+    }
+};
 
-        auto left = upper_bound(nums.begin(), nums.begin() + i, nums[i] - k - 1) - nums.begin();
-        auto right = (upper_bound(nums.begin() + i , nums.end(), nums[i] + k) - nums.begin()) - 1;
-        if(left==i){
-            left--;
-        }
-        int fq=right-left-mp[nums[i]];
-        int val = min(numOperations, fq)+mp[nums[i]];
-        maxFq=max(maxFq,val);
+class A
+{
+    int a = 2;
+    int b = 4;
+
+public:
+
+    friend int mul(A obj)
+    {
+        return (obj.a * obj.b);
     }
-    return maxFq;
-}
-int main(){
-    vector<int> nums = {5, 11, 20, 20};
-    int k=5;
-    int op=1;
-    cout<<maxFrequency(nums,k,op)<<endl;
+};
+
+int main()
+{
+    Base_class *b;
+    Derived_class d;
+    b=&d;
+    b->show();
+
     
+    A obj;
+    int res = mul(obj);
+    cout << res << endl;
     return 0;
 }

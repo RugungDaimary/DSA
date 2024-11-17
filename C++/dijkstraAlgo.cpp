@@ -37,7 +37,7 @@ public:
         distance[src] = 0;
         pq.push({0, src});
 
-        while (!st.empty())
+        while (!pq.empty())
         {
             auto top = pq.top();
             pq.pop();

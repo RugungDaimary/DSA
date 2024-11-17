@@ -108,19 +108,19 @@ class HashMap
 {
     vector<Node<V> *> buckets;
     int count;
-    int numBuckets;
+    int bucketSize;
 
 public:
     HashMap()
     {
         count = 0;
-        numBuckets = 5;
-        buckets.resize(numBuckets, NULL);
+        bucketSize = 5;
+        buckets.resize(bucketSize, NULL);
     }
 
     ~HashMap()
     {
-        for (int i = 0; i < numBuckets; i++)
+        for (int i = 0; i < bucketSize; i++)
         {
             delete buckets[i]; // Deleting each linked list first
         }
@@ -138,16 +138,16 @@ public:
         for (int i = key.length() - 1; i >= 0; i--)
         {
             hashCode += (key[i]-'0') * currentCoeff;
-            hashCode = hashCode % numBuckets;
+            hashCode = hashCode % bucketSize;
             currentCoeff *= 37;
             currentCoeff = currentCoeff % mod;
         }
-        return hashCode % numBuckets;
+        return hashCode % bucketSize;
     }
 
     double getLoadFactor()
     {
-        return (1.0 * count) / numBuckets;
+        return (1.0 * count) / bucketSize;
     }
 
     void insert(string key, V value)
@@ -225,9 +225,9 @@ public:
     void rehash()
     {
         vector<Node<V> *> temp = buckets;
-        numBuckets *= 2;
+        bucketSize *= 2;
         buckets.clear();
-        buckets.resize(numBuckets, NULL);
+        buckets.resize(bucketSize, NULL);
         count = 0;
 
         for (int i = 0; i < temp.size(); i++)

@@ -133,9 +133,7 @@
              data=newData;
              firstIndex=0;
              nextIndex=capacity;
-             capacity *=2;
-             
-             
+             capacity *=2; 
          }
          data[nextIndex]=element;
          nextIndex=(nextIndex+1)%capacity;
@@ -147,14 +145,17 @@
 
     }
     T front(){
-        // if (isEmpty())
-        // {
-        //     cout<<"Queue is Empty\n";
-        // }
+        /*
+        if (isEmpty()|| size==0)
+        {
+            cout<<"Queue is Empty\n";
+            return -1;
+        }
+        */
         if (firstIndex==-1)
         {
             cout<<"Queue is Empty\n";
-            return 0;
+            return -1;
         }
         return data[firstIndex];
     }
@@ -162,6 +163,7 @@
         if (isEmpty())
         {
             cout<<"Queue is Empty\n";
+            return -1;
         }
         T ans=data[firstIndex];
         firstIndex=(firstIndex+1)%capacity;
@@ -184,8 +186,8 @@ int main(){
     q.enqueue(40);
     q.enqueue(50);
     cout<<q.getSize()<<endl;
-   q.enqueue(60);
-   cout << q.getSize() << endl;
+    q.enqueue(60);
+    cout << q.getSize() << endl;
 
    // cout<<q.getSize()<<endl;
    // cout<<q.front()<<endl;

@@ -2,9 +2,9 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-struct comp
+struct cmp
 {
-    bool operator()(pair<int, int> a, pair<int, int> b) const
+    bool operator()(const pair<int, int> a, const pair<int, int> b) const
     {
         if (a.first == b.first)
         {
@@ -32,7 +32,7 @@ int main()
     // }
 
     // to sort according to 2nd parameter ,we have to make custom comparator
-    sort(vec.begin(), vec.end(),comp()); //will sort the vector according to 2nd parameter
+    sort(vec.begin(), vec.end(),cmp()); //will sort the vector according to 2nd parameter
     for (int i = 0; i < vec.size(); i++)
     {
         cout << vec[i].first << " " << vec[i].second << endl;
